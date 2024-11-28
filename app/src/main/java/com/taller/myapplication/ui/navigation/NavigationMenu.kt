@@ -6,6 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.taller.myapplication.ui.menu.FirstScreen
+import com.taller.myapplication.ui.menu.MenuScreen
 import com.taller.myapplication.ui.screens.AddEntryScreen
 import com.taller.myapplication.ui.screens.EditEntryScreen
 import com.taller.myapplication.ui.screens.ListScreen
@@ -20,8 +22,11 @@ fun NavigationMenu(
 // al principio
     NavHost(
         navController = navController,
-        startDestination = "list"
+        startDestination = "menu"
     ) {
+        composable("menu") {
+            MenuScreen(navController)
+        }
         composable("list"){
             //MenuScreen(navController, viewmodel)
             ListScreen(navController, viewmodel)

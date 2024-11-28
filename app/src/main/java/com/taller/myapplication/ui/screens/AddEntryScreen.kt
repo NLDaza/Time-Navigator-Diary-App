@@ -81,7 +81,7 @@ fun ContentAddScreen(
     viewModel: EntryViewModel
 ){
     //Creamos una variable que al abrirse, oculte el teclado virtual.
-    val keyboardController = LocalSoftwareKeyboardController.current
+    //val keyboardController = LocalSoftwareKeyboardController.current
 
     //Creamos variables para almacenar y detectar cuando se estan cambiando
 // los elementos que el usuario introduce
@@ -166,7 +166,7 @@ fun ContentAddScreen(
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 15.dp)
         ) {
-            keyboardController?.hide()
+            //keyboardController?.hide()
             TextField(
                 value = selectedDay,
                 onValueChange = { },
@@ -200,7 +200,7 @@ fun ContentAddScreen(
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 15.dp)
         ) {
-            keyboardController?.hide()
+            //keyboardController?.hide()
             TextField(
                 value = selectedMonth,
                 onValueChange = { },
@@ -227,26 +227,34 @@ fun ContentAddScreen(
                 }
             }
         }
+        // Validar si el día y el mes están seleccionados
+        val isButtonEnabled = selectedDay != dayList[0] && selectedMonth !=
+                monthList[0]
         Button(
             onClick = {
-                val entry = Entry(
-                    System.currentTimeMillis().toString(),//Lo usamos como el
-                // id de la entrada
-                    mood,
-                    score,
-                    memory,
-                    selectedDay,
-                    selectedMonth
-                )
-                viewModel.addEntry(entry)
-                navController.popBackStack()
+                // Solo ejecutar si el botón está habilitado
+                if (isButtonEnabled) {
+                    val entry = Entry(
+                        idEntry = System.currentTimeMillis().toString(), // Usamos el
+                        // tiempo como ID
+                        mood = mood,
+                        score = score,
+                        memory = memory,
+                        day = selectedDay,
+                        month = selectedMonth
+                    )
+                    viewModel.addEntry(entry)
+                    navController.popBackStack()
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
+                .padding(bottom = 10.dp),
+            enabled = isButtonEnabled // Habilitar/deshabilitar el botón
         ) {
             Text(text = "Añadir entrada")
         }
     }
+
 }

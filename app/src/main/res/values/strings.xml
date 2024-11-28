@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Time Navigator</string>
+
+    <string name="close_app"> Cerrando la app</string>
+    <string name="are_u_sure">¿Estás seguro?</string>
+    <string name="main_screen">Menú principal</string>
+    <string name="add_entrie">Agregar Entrada</string>
+    <string name="entries_list">Lista de entradas</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="calendar">Búsqueda por fecha</string>
+    <string name="close">Cerrar app</string>
+    <string name="save">Guardar</string>
+    <string name="settings">Ajustes</string>
 </resources>
