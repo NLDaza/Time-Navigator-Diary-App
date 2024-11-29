@@ -2,15 +2,18 @@ package com.taller.myapplication.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenuItem
@@ -23,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -98,8 +102,9 @@ fun ContentEditScreen(
     day: String,
     month: String,
 ) {
+    //REVISAR
     //Creamos una variable que al abrirse, oculte el teclado virtual.
-    val keyboardController = LocalSoftwareKeyboardController.current
+    //val keyboardController = LocalSoftwareKeyboardController.current
 
     //Creamos variables para almacenar y detectar cuando se estan cambiando
 // los elementos que el usuario introduce
@@ -109,7 +114,11 @@ fun ContentEditScreen(
     var memory by remember { mutableStateOf(memory) }
 
     //Para crear una lista desplegable
-    val dayList = listOf("Selecciona un día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+    val dayList = listOf(
+        "Selecciona un día",
+        "1", "2", "3", "4", "5", "6", "7","8","9","10",
+        "11", "12", "13", "14", "15", "16", "17","18","19","20",
+        "21", "22", "23", "24", "25", "26", "27","28","29","30","31")
     var showDays by remember {
         mutableStateOf(false)
     }
@@ -129,11 +138,13 @@ fun ContentEditScreen(
     // 9 numeros en vez de 2
     val maxScore = 2
 
+    val openDialog = remember { mutableStateOf(false) }
     Column (
         modifier = Modifier
             .padding(it)
             .padding(top = 20.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
@@ -146,7 +157,6 @@ fun ContentEditScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
-
         )
         OutlinedTextField(
             value = score,
@@ -176,88 +186,115 @@ fun ContentEditScreen(
                 .height(300.dp)
                 .verticalScroll(rememberScrollState())
         )
-
-        //REVISAR
-        ExposedDropdownMenuBox(
-            expanded = showDays,
-            onExpandedChange = { showDays = !showDays },
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 15.dp)
-        ) {
-            keyboardController?.hide()
-            TextField(
-                value = selectedDay,
-                onValueChange = { },
-                readOnly = true,
-                modifier = Modifier.menuAnchor(),
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
+        Row {
+            ExposedDropdownMenuBox(
                 expanded = showDays,
-                onDismissRequest = {showDays = false}
+                onExpandedChange = { showDays = !showDays },
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 15.dp)
+                    .width(50.dp)
             ) {
-                dayList.forEachIndexed { index, s ->
-                    DropdownMenuItem(
-                        text = { Text(text = s)},
-                        onClick = {
-                            if (s != dayList[0]){
-                                selectedDay = s
-                            }
-                            showDays = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
+                //keyboardController?.hide() REVISAR
+                TextField(
+                    value = selectedDay,
+                    onValueChange = { },
+                    readOnly = true,
+                    modifier = Modifier.menuAnchor(),
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = showDays,
+                    onDismissRequest = {showDays = false}
+                ) {
+                    dayList.forEachIndexed { _, s ->
+                        DropdownMenuItem(
+                            text = { Text(text = s)},
+                            onClick = {
+                                if (s != dayList[0]){
+                                    selectedDay = s
+                                }
+                                showDays = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
+            }
+            ExposedDropdownMenuBox(
+                expanded = showMonth,
+                onExpandedChange = { showMonth = !showMonth },
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 15.dp)
+                    .width(100.dp)
+            ) {
+                //keyboardController?.hide() REVISAR
+                TextField(
+                    value = selectedMonth,
+                    onValueChange = { },
+                    readOnly = true,
+                    modifier = Modifier.menuAnchor(),
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = showMonth,
+                    onDismissRequest = {showMonth = false}
+                ) {
+                    monthList.forEachIndexed { _, s ->
+                        DropdownMenuItem(
+                            text = {Text(text = s)},
+                            onClick = {
+                                if (s != monthList[0]){
+                                    selectedMonth = s
+                                }
+                                showMonth = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
                 }
             }
         }
-        ExposedDropdownMenuBox(
-            expanded = showMonth,
-            onExpandedChange = { showMonth = !showMonth },
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 15.dp)
-        ) {
-            keyboardController?.hide()
-            TextField(
-                value = selectedMonth,
-                onValueChange = { },
-                readOnly = true,
-                modifier = Modifier.menuAnchor(),
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
-                expanded = showMonth,
-                onDismissRequest = {showMonth = false}
-            ) {
-                monthList.forEachIndexed { index, s ->
-                    DropdownMenuItem(
-                        text = {Text(text = s)},
+        //REVISAR
+        if(openDialog.value) {
+            AlertDialog(
+                onDismissRequest = {openDialog.value = false},
+                title = {Text (text ="¿Quieres modificar la entrada?")},
+                text = {Text(text = "Los cambios no pueden deshacerse")},
+                confirmButton = {
+                    TextButton(
                         onClick = {
-                            if (s != monthList[0]){
-                                selectedMonth = s
-                            }
-                            showMonth = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
+                            val entry = Entry(
+                                idEntry,
+                                mood,
+                                score,
+                                memory,
+                                selectedDay,
+                                selectedMonth
+                            )
+                            viewModel.updateEntry(entry)
+                            navController.popBackStack()
+                        }) {
+                        Text(text = "Aceptar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog.value = false
+                        }
+                    ) {
+                        Text("Salir")
+                    }
                 }
-            }
+            )
         }
         Button(
             onClick = {
-                val entry = Entry(
-                    idEntry,
-                    mood,
-                    score,
-                    memory,
-                    selectedDay,
-                    selectedMonth
-                )
-                viewModel.updateEntry(entry)
-                navController.popBackStack()
+                openDialog.value= true
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -268,3 +305,4 @@ fun ContentEditScreen(
         }
     }
 }
+
