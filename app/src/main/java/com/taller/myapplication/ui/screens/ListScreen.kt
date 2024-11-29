@@ -96,10 +96,6 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             text = it.month,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
-                        Text(
-                            text = it.idEntry,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
                         Row(
                             modifier= Modifier.fillMaxSize()
                         ){

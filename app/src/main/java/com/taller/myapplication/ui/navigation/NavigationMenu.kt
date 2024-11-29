@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.taller.myapplication.ui.menu.FirstScreen
 import com.taller.myapplication.ui.menu.MenuScreen
 import com.taller.myapplication.ui.screens.AddEntryScreen
 import com.taller.myapplication.ui.screens.EditEntryScreen

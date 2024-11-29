@@ -1,32 +1,38 @@
 package com.taller.myapplication.ui.menu
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.R
-import com.taller.myapplication.ui.AlertDialogGeneral
-import com.taller.myapplication.ui.CustomBtnMenu
 
 
 @Composable //Revisar los contentdescription, menu mejorado
@@ -81,4 +87,59 @@ fun MenuScreen(navController: NavController){
             btnAlertIcon = {Icon(Icons.Filled.ExitToApp,contentDescription = null)}
         )
     }
+}
+@Composable
+fun AlertDialogGeneral(
+    title: @Composable () -> Unit,
+    text: @Composable () -> Unit,
+    btnContainerColor: Color,
+    btnAlertText: @Composable () -> Unit,
+    btnAlertIcon: @Composable () -> Unit,
+){
+    val context = LocalContext.current
+
+    val openDialog = remember { mutableStateOf(false) }
+
+    if (openDialog.value){
+        AlertDialog(
+            //Quita el dialog cuando clica fuera
+            onDismissRequest = {openDialog.value = false},
+            title = title,
+            text = text,
+            confirmButton = {
+                TextButton(onClick = {
+                    openDialog.value = false
+                    (context as Activity).finish()
+                }) { Text(stringResource(id = R.string.confirm)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { openDialog.value = false }) { Text(
+                    stringResource(id = R.string.cancel)
+                ) }
+            }
+        )
+    }
+    CustomBtnMenu(btnText = btnAlertText,
+                  btnIcon = btnAlertIcon,
+                  containerColor = btnContainerColor,
+                  onClick = {openDialog.value = true}
+    )
+}
+@Composable
+fun CustomBtnMenu (
+    btnText: @Composable () -> Unit,//El texto que recibe le ponemos una
+    // expresión lambda, por lo que se le podrá poner cualquier Composable
+    // para personalizar el texto, haremos lo mismo con icon.
+    btnIcon: @Composable () -> Unit,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    onClick: () -> Unit,
+) {
+    ExtendedFloatingActionButton(
+        onClick = onClick,
+        containerColor = containerColor,
+        contentColor = contentColorFor(backgroundColor = containerColor),
+        icon = { btnIcon() },
+        text = { btnText() },
+        modifier = Modifier.size(width = 240.dp, height = 55.dp)
+    )
 }

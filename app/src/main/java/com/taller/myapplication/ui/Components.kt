@@ -39,62 +39,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
-//Componentes del Menu
-@Composable
-fun AlertDialogGeneral(
-    title: @Composable () -> Unit,
-    text: @Composable () -> Unit,
-    btnContainerColor: Color,
-    btnAlertText: @Composable () -> Unit,
-    btnAlertIcon: @Composable () -> Unit,
-){
-    val context = LocalContext.current
+//Componentes del Menu, traspasados
 
-    val openDialog = remember { mutableStateOf(false) }
-
-    if (openDialog.value){
-        AlertDialog(
-            //Quita el dialog cuando clica fuera
-            onDismissRequest = {openDialog.value = false},
-            title = title,
-            text = text,
-            confirmButton = {
-                TextButton(onClick = {
-                    openDialog.value = false
-                    (context as Activity).finish()
-                }) { Text(stringResource(id = R.string.confirm)) }
-            },
-            dismissButton = {
-                TextButton(onClick = { openDialog.value = false }) { Text(
-                    stringResource(id = R.string.cancel)
-                ) }
-            }
-        )
-    }
-    CustomBtnMenu(btnText = btnAlertText,
-                  btnIcon = btnAlertIcon,
-                  containerColor = btnContainerColor,
-                  onClick = {openDialog.value = true}
-    )
-}
-@Composable
-fun CustomBtnMenu (
-    btnText: @Composable () -> Unit,//El texto que recibe le ponemos una
-    // expresión lambda, por lo que se le podrá poner cualquier Composable
-    // para personalizar el texto, haremos lo mismo con icon.
-    btnIcon: @Composable () -> Unit,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    onClick: () -> Unit,
-) {
-    ExtendedFloatingActionButton(
-        onClick = onClick,
-        containerColor = containerColor,
-        contentColor = contentColorFor(backgroundColor = containerColor),
-        icon = { btnIcon() },
-        text = { btnText() },
-        modifier = Modifier.size(width = 240.dp, height = 55.dp)
-    )
-}
 
 //Componentes NewEntryScreen
 /*@Composable //Quizás cambiar por un Date Picker, necesita API 26

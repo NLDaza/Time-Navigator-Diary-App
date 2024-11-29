@@ -24,8 +24,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val db = Room.databaseBuilder(//Inicializamos la base de datos, creamos una variable
-                        this, EntryDatabase::class
-                            .java, "db_diary"
+                        this,
+                        EntryDatabase::class.java,
+                        "db_diary"
                     ).build()
                     //Inicializamos el DAO
                     val dao = db.entryDao()
