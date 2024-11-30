@@ -1,6 +1,7 @@
 package com.taller.myapplication.ui.screens
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -121,6 +122,11 @@ fun deleteDatabase(context: Context) {
         Toast.makeText(context, "Base de datos eliminada con éxito", Toast.LENGTH_SHORT).show()
     } else {
         Toast.makeText(context, "No se pudo eliminar la base de datos", Toast.LENGTH_SHORT).show()
+    }
+    // Cierra la aplicación
+    if (context is Activity) {
+        context.finishAffinity() // Cierra todas las actividades
+        System.exit(0) // Asegura la detención completa
     }
 }
 
