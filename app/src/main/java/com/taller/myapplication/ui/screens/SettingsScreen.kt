@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -68,15 +71,40 @@ fun SettingsScreen(navController: NavHostController) {
 }
 @Composable
 fun ContentSettingsScreen(it:PaddingValues){
+    var showDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .padding(it)
             .padding(top = 20.dp)
             .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ){
         SwitchBtnDayNight()
-
+        Button(onClick = {showDialog = true}) {
+            Text("Eliminar todas las entradas")
+        }
+        if (showDialog){
+            AlertDialog(
+                onDismissRequest = {showDialog= false},
+                confirmButton = {
+                    TextButton(
+                        onClick = {}
+                    ) {
+                        Text("Eliminar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {showDialog = false}
+                    ) {
+                        Text("Cancelar")
+                    }
+                },
+                title = { Text("Confirmación") },
+                text = { Text("¿Estás seguro de que quieres eliminar la base de datos? Esta acción no se puede deshacer.") }
+            )
+        }
     }
 
 }
