@@ -75,7 +75,7 @@ fun MenuScreen(navController: NavController){
                       btnIcon = { Icon(Icons.Filled.Build, contentDescription =
                       null)},
                       containerColor = MaterialTheme.colorScheme.onPrimary,
-                      onClick = {}
+                      onClick = {navController.navigate("settings")}
         )
         Spacer(modifier = Modifier.height(15.dp))
         //Botón ara cerrar la app

@@ -10,6 +10,7 @@ import com.taller.myapplication.ui.menu.MenuScreen
 import com.taller.myapplication.ui.screens.AddEntryScreen
 import com.taller.myapplication.ui.screens.EditEntryScreen
 import com.taller.myapplication.ui.screens.ListScreen
+import com.taller.myapplication.ui.screens.SettingsScreen
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @Composable
@@ -32,6 +33,9 @@ fun NavigationMenu(
         }
         composable("add") {
             AddEntryScreen(navController, viewmodel)
+        }
+        composable("settings"){
+            SettingsScreen(navController)
         }
         composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}",
                    arguments = listOf(
