@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.data.Entry
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
+import java.util.Objects
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +56,8 @@ fun EditEntryScreen(
     score: String,
     memory: String,
     day: String,
-    month: String
+    month: String,
+    year: String
 ) {
     Scaffold (
         topBar = {
@@ -84,7 +86,7 @@ fun EditEntryScreen(
 
         ){
         ContentEditScreen(
-            it, navController, viewModel, idEntry, mood, score, memory,day, month
+            it, navController, viewModel, idEntry, mood, score, memory,day, month, year
         )
     }
 }
@@ -101,6 +103,7 @@ fun ContentEditScreen(
     memory: String,
     day: String,
     month: String,
+    year: String
 ) {
     //REVISAR
     //Creamos una variable que al abrirse, oculte el teclado virtual.
@@ -113,12 +116,13 @@ fun ContentEditScreen(
     var score by remember { mutableStateOf(score) }
     var memory by remember { mutableStateOf(memory) }
 
+    //Para crear una lista desplegable REVISAR
+    val dayList: MutableList<String> = ArrayList()
+
+    for (i in 1..31) {
+        dayList.add(i.toString())
+    }
     //Para crear una lista desplegable
-    val dayList = listOf(
-        "Selecciona un día",
-        "1", "2", "3", "4", "5", "6", "7","8","9","10",
-        "11", "12", "13", "14", "15", "16", "17","18","19","20",
-        "21", "22", "23", "24", "25", "26", "27","28","29","30","31")
     var showDays by remember {
         mutableStateOf(false)
     }
@@ -132,6 +136,14 @@ fun ContentEditScreen(
     }
     var selectedMonth by remember {
         mutableStateOf(month)
+    }
+    val intYear = year.toInt()
+    val yearList = listOf(Objects.toString(intYear - 4), Objects.toString(intYear - 3), Objects.toString(intYear - 2), Objects.toString(intYear - 1), Objects.toString(intYear), Objects.toString(intYear + 1), Objects.toString(intYear + 2), Objects.toString(intYear + 3), Objects.toString(intYear + 4))
+    var showYear by remember {
+        mutableStateOf(false)
+    }
+    var selectedYear by remember {
+        mutableStateOf(year)
     }
     //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
     // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
@@ -193,7 +205,7 @@ fun ContentEditScreen(
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 15.dp)
-                    .width(50.dp)
+                    .width(100.dp)
             ) {
                 //keyboardController?.hide() REVISAR
                 TextField(
@@ -258,6 +270,40 @@ fun ContentEditScreen(
                 }
             }
         }
+        ExposedDropdownMenuBox(
+            expanded = showYear,
+            onExpandedChange = { showYear = !showYear },
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 15.dp)
+        ) {
+            //keyboardController?.hide()
+            TextField(
+                value = selectedYear,
+                onValueChange = { },
+                readOnly = true,
+                modifier = Modifier.menuAnchor(),
+                trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
+                colors = ExposedDropdownMenuDefaults.textFieldColors()
+            )
+            ExposedDropdownMenu(
+                expanded = showYear,
+                onDismissRequest = {showYear = false}
+            ) {
+                yearList.forEachIndexed { _, s ->
+                    DropdownMenuItem(
+                        text = {Text(text = s)},
+                        onClick = {
+                            if (s != yearList[0]){
+                                selectedYear = s
+                            }
+                            showYear = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
+            }
+        }
         //REVISAR
         if(openDialog.value) {
             AlertDialog(
@@ -274,7 +320,7 @@ fun ContentEditScreen(
                                 memory,
                                 selectedDay,
                                 selectedMonth,
-                                ""
+                                selectedYear
                             )
                             viewModel.updateEntry(entry)
                             navController.popBackStack()

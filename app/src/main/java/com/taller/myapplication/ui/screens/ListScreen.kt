@@ -103,8 +103,13 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             text = it.day,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
+                        Text(//REVISAR
+                            text = it.memory,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            maxLines = 1,
+                        )
                         Text(
-                            text = it.month,
+                            text = "${it.year}/ ${it.month}/ ${it.day}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Row(
@@ -113,7 +118,8 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             IconButton(
                                 onClick = {navController.navigate("edit/${it
                                     .idEntry}/${it.mood}/${it.score}/${it
-                                        .memory}/${it.day}/${it.month}")}
+                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                }
                             ) {
                                 Icon(Icons.Filled.Edit,contentDescription =
                                 "Edit")

@@ -37,7 +37,7 @@ fun NavigationMenu(
         composable("settings"){
             SettingsScreen(navController)
         }
-        composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}",
+        composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",
                    arguments = listOf(
                        navArgument("idEntry"){type = NavType.StringType},
                        navArgument("mood"){type = NavType.StringType},
@@ -45,6 +45,7 @@ fun NavigationMenu(
                        navArgument("memory"){type = NavType.StringType},
                        navArgument("day"){type = NavType.StringType},
                        navArgument("month"){type = NavType.StringType},
+                       navArgument("year"){type = NavType.StringType},
                    )){
             EditEntryScreen(
                 navController,
@@ -55,6 +56,7 @@ fun NavigationMenu(
                 it.arguments?.getString("memory")!!,
                 it.arguments?.getString("day")!!,
                 it.arguments?.getString("month")!!,
+                it.arguments?.getString("year")!!,
             )
         }
     }
