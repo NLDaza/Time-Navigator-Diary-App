@@ -118,8 +118,9 @@ fun ContentAddScreen(
         modifier = Modifier
             .padding(it)
             .padding(top = 20.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         OutlinedTextField(
             value = mood,
@@ -136,9 +137,9 @@ fun ContentAddScreen(
         OutlinedTextField(
             value = score,
             onValueChange = {
-                            if ((it.length <= maxScore)){
-                                score = it
-                            }
+                if ((it.length <= maxScore)){
+                    score = it
+                }
             },
             label = {Text(text = "Score")},
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
@@ -237,7 +238,7 @@ fun ContentAddScreen(
         Button(
             onClick = {
                 // Solo ejecutar si el botón está habilitado
-                if (isButtonEnabled) {
+
                     val entry = Entry(
                         idEntry = System.currentTimeMillis().toString(), // Usamos el
                         // tiempo como ID
@@ -249,7 +250,7 @@ fun ContentAddScreen(
                     )
                     viewModel.addEntry(entry)
                     navController.popBackStack()
-                }
+
             },
             modifier = Modifier
                 .fillMaxWidth()
