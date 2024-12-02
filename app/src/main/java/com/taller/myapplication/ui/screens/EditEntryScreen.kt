@@ -273,7 +273,8 @@ fun ContentEditScreen(
                                 score,
                                 memory,
                                 selectedDay,
-                                selectedMonth
+                                selectedMonth,
+                                ""
                             )
                             viewModel.updateEntry(entry)
                             navController.popBackStack()

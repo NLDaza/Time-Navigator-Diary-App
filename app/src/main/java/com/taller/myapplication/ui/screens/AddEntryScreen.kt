@@ -33,13 +33,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.data.Entry
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
+import java.util.Calendar
+import java.util.Date
+import java.util.Objects.toString
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,6 +112,21 @@ fun ContentAddScreen(
     var selectedMonth by remember {
         mutableStateOf(monthList[0])
     }
+    var date: Date = Date()// your date
+//https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
+// Choose time zone in which you want to interpret your Date
+    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+    cal.setTime(date)
+    val year = cal[Calendar.YEAR]
+
+
+    val yearList = listOf("Seleciona un año", toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
+    var showYear by remember {
+        mutableStateOf(false)
+    }
+    var selectedYear by remember {
+        mutableStateOf(yearList[0])
+    }
     //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
     // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
     // 9 numeros en vez de 2
@@ -159,7 +177,7 @@ fun ContentAddScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
-                .height(300.dp)
+                .height(250.dp)
                 .verticalScroll(rememberScrollState())
         )
 
@@ -184,7 +202,7 @@ fun ContentAddScreen(
                 expanded = showDays,
                 onDismissRequest = {showDays = false}
             ) {
-                dayList.forEachIndexed { index, s ->  
+                dayList.forEachIndexed { _, s ->
                     DropdownMenuItem(
                         text = { Text(text = s)},
                         onClick = {
@@ -218,7 +236,7 @@ fun ContentAddScreen(
                 expanded = showMonth,
                 onDismissRequest = {showMonth = false}
             ) {
-                monthList.forEachIndexed { index, s ->
+                monthList.forEachIndexed { _, s ->
                     DropdownMenuItem(
                         text = {Text(text = s)},
                         onClick = {
@@ -226,6 +244,40 @@ fun ContentAddScreen(
                                 selectedMonth = s
                             }
                             showMonth = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
+            }
+        }
+        ExposedDropdownMenuBox(
+            expanded = showYear,
+            onExpandedChange = { showYear = !showYear },
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 15.dp)
+        ) {
+            //keyboardController?.hide()
+            TextField(
+                value = selectedYear,
+                onValueChange = { },
+                readOnly = true,
+                modifier = Modifier.menuAnchor(),
+                trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
+                colors = ExposedDropdownMenuDefaults.textFieldColors()
+            )
+            ExposedDropdownMenu(
+                expanded = showYear,
+                onDismissRequest = {showYear = false}
+            ) {
+                yearList.forEachIndexed { _, s ->
+                    DropdownMenuItem(
+                        text = {Text(text = s)},
+                        onClick = {
+                            if (s != yearList[0]){
+                                selectedYear = s
+                            }
+                            showYear = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
@@ -246,7 +298,8 @@ fun ContentAddScreen(
                         score = score,
                         memory = memory,
                         day = selectedDay,
-                        month = selectedMonth
+                        month = selectedMonth,
+                        year = selectedYear
                     )
                     viewModel.addEntry(entry)
                     navController.popBackStack()

@@ -17,5 +17,7 @@ data class Entry (
     @ColumnInfo ("day")
     val day: String,
     @ColumnInfo ("month")
-    val month: String
+    val month: String,
+    @ColumnInfo ("year")
+    val year: String
 )
