@@ -44,6 +44,7 @@ import java.util.Date
 import java.util.Objects.toString
 import java.util.TimeZone
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEntryScreen(
@@ -96,36 +97,45 @@ fun ContentAddScreen(
     var score by remember { mutableStateOf("") }
     var memory by remember { mutableStateOf("") }
 
-    //Para crear una lista desplegable
-    val dayList = listOf("Selecciona un día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+    var date: Date = Date()// your date
+    //https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
+    // Choose time zone in which you want to interpret your Date
+    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+    cal.setTime(date)
+    val year = cal[Calendar.YEAR]
+    val month = cal[Calendar.MONTH]
+    val day = cal[Calendar.DAY_OF_MONTH]
+
+    //Para crear una lista desplegable REVISAR
+    val dayList: MutableList<String> = ArrayList()
+
+    for (i in 1..31) {
+        dayList.add(i.toString())
+    }
     var showDays by remember {
         mutableStateOf(false)
     }
     var selectedDay by remember {
-        mutableStateOf(dayList[0])
+        mutableStateOf(dayList[day-1])
     }
-
-    val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
+    val monthList: MutableList<String> = ArrayList()
+    for (i in 1..12 ){
+        monthList.add(i.toString())
+    }
+    //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
     var showMonth by remember {
         mutableStateOf(false)
     }
     var selectedMonth by remember {
-        mutableStateOf(monthList[0])
+        mutableStateOf(monthList[month - 1])
     }
-    var date: Date = Date()// your date
-//https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
-// Choose time zone in which you want to interpret your Date
-    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
-    cal.setTime(date)
-    val year = cal[Calendar.YEAR]
 
-
-    val yearList = listOf("Seleciona un año", toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
+    val yearList = listOf( toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
     var showYear by remember {
         mutableStateOf(false)
     }
     var selectedYear by remember {
-        mutableStateOf(yearList[0])
+        mutableStateOf(yearList[4])
     }
     //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
     // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
