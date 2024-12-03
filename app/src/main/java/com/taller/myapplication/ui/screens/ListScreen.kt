@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -114,6 +115,14 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                         Row(
                             modifier= Modifier.fillMaxSize()
                         ){
+                            IconButton(
+                                onClick = {
+
+                                }
+                            ) {
+                                Icon(Icons.Filled.Info, contentDescription
+                                = "EntryPreview")
+                            }
                             IconButton(
                                 onClick = {navController.navigate("edit/${it
                                     .idEntry}/${it.mood}/${it.score}/${it
