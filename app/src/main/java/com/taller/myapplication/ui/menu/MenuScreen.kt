@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
@@ -38,7 +40,8 @@ import com.taller.myapplication.R
 @Composable //Revisar los contentdescription, menu mejorado
 fun MenuScreen(navController: NavController){
     Column (
-        modifier = Modifier.fillMaxSize(), //Para que ocupe lo máximo posible
+        modifier = Modifier.fillMaxSize() //Para que ocupe lo máximo posible
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,//Para que se alineen
     ){
