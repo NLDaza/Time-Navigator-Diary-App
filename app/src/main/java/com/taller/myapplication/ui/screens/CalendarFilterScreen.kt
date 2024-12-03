@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -23,19 +25,25 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(navController: NavController, viewModel: EntryViewModel){
+fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel){
     Scaffold (
         topBar = {
             CenterAlignedTopAppBar(title = { Text(text = "Lista de entradas",
@@ -67,22 +75,77 @@ fun ListScreen(navController: NavController, viewModel: EntryViewModel){
             }
         }
     ){
-        ContentListScreen(it, navController, viewModel)
+        ContentCalendarScreen(it, navController, viewModel)
     }
 }
 @Composable
-fun ContentListScreen(it: PaddingValues, navController: NavController,
+fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                       viewModel: EntryViewModel){
     //Creamos una variable para poder usar el estado, una lista de entradas.
     val state = viewModel.state
+    //Creamos variables para los filtros
+    var dayFilter by rememberSaveable { mutableStateOf("") }
+    var monthFilter by rememberSaveable { mutableStateOf("") }
+    var yearFilter by rememberSaveable { mutableStateOf("") }
+    //Se
+    var filteredEntryList = state.entryList
+        .sortedByDescending { it.day }
+        .sortedBy { it.month }
+    if(dayFilter != "") {
+        filteredEntryList = filteredEntryList.filter { it.day == dayFilter}
+    }
+    if(monthFilter != "") {
+        filteredEntryList = filteredEntryList.filter { it.month == monthFilter}
+    }
+    if(yearFilter != "") {
+        filteredEntryList = filteredEntryList.filter { it.year == yearFilter}
+    }
+    //Para que se filtre y sean necesarias todos los campos (opcional)
+    //filteredEntryList = filteredEntryList.filter { it.day == dayFilter && it.month == monthFilter && it.year ==yearFilter}
     Column(
-        modifier = Modifier.padding(it)
+        modifier = Modifier
+            .padding(it)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
-       LazyColumn {
-           items(state.entryList
-                     .sortedByDescending { it.day }
-                     .sortedBy { it.month }
-           ){
+    Row {
+        TextField(
+            value = dayFilter,
+            onValueChange = { if (it.length <= 2){dayFilter = it }},
+            label = { Text("Día") },
+            singleLine = true,
+            placeholder = { Text("Ej: 12") },
+            modifier = Modifier.width(90.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                           KeyboardType.Number),
+            )
+        TextField(
+            value = monthFilter,
+            onValueChange = { if (it.length <=2){monthFilter = it }},
+            label = { Text("Mes") },
+            singleLine = true,
+            placeholder = { Text("Ej: 3") },
+            modifier = Modifier.width(90.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                           KeyboardType.Number),
+        )
+        TextField(
+            value = yearFilter,
+            onValueChange = { if(it.length <= 4) {yearFilter = it }},
+            label = { Text("Año") },
+            singleLine = true,
+            placeholder = { Text("Ej: 2024") },
+            modifier = Modifier.width(100.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                           KeyboardType.Number),
+        )
+    }
+
+
+        LazyColumn {
+            items(filteredEntryList
+            ){
                 Card (
                     modifier = Modifier
                         .padding(8.dp)
@@ -117,7 +180,7 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             IconButton(
                                 onClick = {navController.navigate("edit/${it
                                     .idEntry}/${it.mood}/${it.score}/${it
-                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                    .memory}/${it.day}/${it.month}/${it.year}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Edit,contentDescription =
@@ -134,7 +197,7 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                         }
                     }
                 }
-           }
-       }
+            }
+        }
     }
 }

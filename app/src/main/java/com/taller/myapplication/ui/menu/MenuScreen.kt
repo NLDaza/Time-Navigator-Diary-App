@@ -67,7 +67,7 @@ fun MenuScreen(navController: NavController){
         CustomBtnMenu(btnText = { Text(stringResource(id = R.string.calendar))},
                       btnIcon = { Icon(Icons.Filled.DateRange, contentDescription = null)},
                       containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                      onClick = {}
+                      onClick = {navController.navigate("calendar")}
         )
         Spacer(modifier = Modifier.height(15.dp))
         //Abrimos los ajustes, en proceso
