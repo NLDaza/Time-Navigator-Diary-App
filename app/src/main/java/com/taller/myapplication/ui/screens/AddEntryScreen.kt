@@ -128,7 +128,7 @@ fun ContentAddScreen(
     }
     var selectedMonth by remember {
         mutableStateOf(monthList[month])//En Java los meses empiezan en 0, al contrario que los dias que empiezan en 1
-    }
+    }//https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html
     val yearList = listOf( toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
 
     var showYear by remember {
