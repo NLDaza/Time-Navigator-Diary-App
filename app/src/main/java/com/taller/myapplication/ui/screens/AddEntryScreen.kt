@@ -303,17 +303,10 @@ fun ContentAddScreen(
                 .height(250.dp)
                 .verticalScroll(rememberScrollState())
         )
-
-        // Validar si el día y el mes están seleccionados REVISAR
-        val isButtonEnabled = selectedDay != dayList[0] && selectedMonth !=
-                monthList[0]
         Button(
             onClick = {
-                // Solo ejecutar si el botón está habilitado
-
                     val entry = Entry(
-                        idEntry = System.currentTimeMillis().toString(), // Usamos el
-                        // tiempo como ID
+                        idEntry = System.currentTimeMillis().toString(), // Usamos el tiempo actual como ID
                         mood = mood,
                         score = score,
                         memory = memory,
@@ -328,7 +321,6 @@ fun ContentAddScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp),
-            enabled = isButtonEnabled // Habilitar/deshabilitar el botón
         ) {
             Text(text = "Añadir entrada")
         }

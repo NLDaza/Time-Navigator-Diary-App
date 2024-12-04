@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -114,7 +115,8 @@ fun ContentEditScreen(
 
     var mood by remember { mutableStateOf(mood) }
     var score by remember { mutableStateOf(score) }
-    var memory by remember { mutableStateOf(memory) }
+    val decodedMemory = Uri.decode(memory) // Decodifica "memory"
+    var memory by remember { mutableStateOf(decodedMemory) }
 
     //Para crear una lista desplegable REVISAR
     val dayList: MutableList<String> = ArrayList()

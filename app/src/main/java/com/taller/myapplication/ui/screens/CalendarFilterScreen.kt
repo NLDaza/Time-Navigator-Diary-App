@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -189,9 +190,10 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                                 = "EntryPreview")
                             }
                             IconButton(
-                                onClick = {navController.navigate("edit/${it
-                                    .idEntry}/${it.mood}/${it.score}/${it
-                                    .memory}/${it.day}/${it.month}/${it.year}")
+                                onClick = {
+                                    val encodedMemory = Uri.encode(it.memory)
+                                    navController.navigate("edit/${it
+                                    .idEntry}/${it.mood}/${it.score}/${encodedMemory}/${it.day}/${it.month}/${it.year}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Edit,contentDescription =
