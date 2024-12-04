@@ -181,9 +181,10 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                         ){
                             IconButton(
                                 onClick = {
+                                    val encodedMemory = Uri.encode(it.memory)
                                     navController.navigate("preview/${it
-                                        .idEntry}/${it.mood}/${it.score}/${it
-                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                        .idEntry}/${it.mood}/${it.score}/${
+                                        encodedMemory}/${it.day}/${it.month}/${it.year}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, contentDescription

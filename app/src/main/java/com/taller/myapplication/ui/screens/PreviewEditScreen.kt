@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -86,6 +87,7 @@ fun ContentPreviewEditScreen(
     day: String,
     month: String,
     year: String){
+    val decodedMemory = Uri.decode(memory) // Decodifica "memory"
 
     Column (
         modifier = Modifier
@@ -99,7 +101,7 @@ fun ContentPreviewEditScreen(
         PreviewEditText(text = mood, modifier = Modifier)
         PreviewEditText(text = "Puntuación: ${score}", modifier = Modifier)
 
-        PreviewEditText(text = memory,
+        PreviewEditText(text = decodedMemory,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(380.dp)
