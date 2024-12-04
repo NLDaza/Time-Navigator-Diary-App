@@ -46,7 +46,7 @@ fun MenuScreen(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally,//Para que se alineen
     ){
         Text(
-            text = stringResource(id = R.string.main_screen),
+            text = stringResource(id = R.string.app_name),
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.SansSerif,
             style = MaterialTheme.typography.titleLarge

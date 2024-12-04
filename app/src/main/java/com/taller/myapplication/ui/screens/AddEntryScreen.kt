@@ -123,12 +123,11 @@ fun ContentAddScreen(
     for (i in 1..12 ){
         monthList.add(i.toString())
     }
-    //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
     var showMonth by remember {
         mutableStateOf(false)
     }
     var selectedMonth by remember {
-        mutableStateOf(monthList[month - 1])
+        mutableStateOf(monthList[month])//En Java los meses empiezan en 0, al contrario que los dias que empiezan en 1
     }
     val yearList = listOf( toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
 
@@ -151,6 +150,11 @@ fun ContentAddScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Row {
+            TextAddScreen(text = "Día")
+            TextAddScreen(text = "Mes")
+            TextAddScreen(text = "Año")
+        }
         Row {
             ExposedDropdownMenuBox(
                 expanded = showDays,
@@ -329,5 +333,14 @@ fun ContentAddScreen(
             Text(text = "Añadir entrada")
         }
     }
+}
 
+@Composable
+fun TextAddScreen(text: String){
+    Text(text = text,
+         modifier = Modifier
+             .padding(horizontal = 5.dp)
+             .padding(bottom = 5.dp)
+             .width(100.dp)
+    )
 }

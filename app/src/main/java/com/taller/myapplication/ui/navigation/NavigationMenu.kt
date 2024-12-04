@@ -11,6 +11,7 @@ import com.taller.myapplication.ui.screens.AddEntryScreen
 import com.taller.myapplication.ui.screens.CalendarFilterScreen
 import com.taller.myapplication.ui.screens.EditEntryScreen
 import com.taller.myapplication.ui.screens.ListScreen
+import com.taller.myapplication.ui.screens.PreviewEditEntryScreen
 import com.taller.myapplication.ui.screens.SettingsScreen
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
@@ -41,6 +42,27 @@ fun NavigationMenu(
         }
         composable("settings"){
             SettingsScreen(navController)
+        }
+        composable("preview/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",arguments = listOf(
+            navArgument("idEntry"){type = NavType.StringType},
+            navArgument("mood"){type = NavType.StringType},
+            navArgument("score"){type = NavType.StringType},
+            navArgument("memory"){type = NavType.StringType},
+            navArgument("day"){type = NavType.StringType},
+            navArgument("month"){type = NavType.StringType},
+            navArgument("year"){type = NavType.StringType},
+        )){
+            PreviewEditEntryScreen(
+                navController,
+                viewmodel,
+                it.arguments?.getString("idEntry")!!,
+                it.arguments?.getString("mood")!!,
+                it.arguments?.getString("score")!!,
+                it.arguments?.getString("memory")!!,
+                it.arguments?.getString("day")!!,
+                it.arguments?.getString("month")!!,
+                it.arguments?.getString("year")!!,
+            )
         }
 
         composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",

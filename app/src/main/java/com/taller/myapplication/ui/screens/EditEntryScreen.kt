@@ -129,8 +129,11 @@ fun ContentEditScreen(
     var selectedDay by remember {
         mutableStateOf(day)
     }
-
-    val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
+    val monthList: MutableList<String> = ArrayList()
+    for (i in 1..12 ){
+        monthList.add(i.toString())
+    }
+    //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
     var showMonth by remember {
         mutableStateOf(false)
     }
@@ -159,6 +162,119 @@ fun ContentEditScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row {
+            TextAddScreen(text = "Día")
+            TextAddScreen(text = "Mes")
+            TextAddScreen(text = "Año")
+        }
+        Row {
+            ExposedDropdownMenuBox(
+                expanded = showDays,
+                onExpandedChange = { showDays = !showDays },
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .padding(bottom = 15.dp)
+                    .width(100.dp)
+            ) {
+                //keyboardController?.hide() REVISAR
+                TextField(
+                    value = selectedDay,
+                    onValueChange = { },
+                    readOnly = true,
+                    modifier = Modifier.menuAnchor(),
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = showDays,
+                    onDismissRequest = {showDays = false}
+                ) {
+                    dayList.forEachIndexed { _, s ->
+                        DropdownMenuItem(
+                            text = { Text(text = s)},
+                            onClick = {
+                                if (s != dayList[0]){
+                                    selectedDay = s
+                                }
+                                showDays = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
+            }
+            ExposedDropdownMenuBox(
+                expanded = showMonth,
+                onExpandedChange = { showMonth = !showMonth },
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .padding(bottom = 15.dp)
+                    .width(100.dp)
+            ) {
+                //keyboardController?.hide() REVISAR
+                TextField(
+                    value = selectedMonth,
+                    onValueChange = { },
+                    readOnly = true,
+                    modifier = Modifier.menuAnchor(),
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = showMonth,
+                    onDismissRequest = {showMonth = false}
+                ) {
+                    monthList.forEachIndexed { _, s ->
+                        DropdownMenuItem(
+                            text = {Text(text = s)},
+                            onClick = {
+                                if (s != monthList[0]){
+                                    selectedMonth = s
+                                }
+                                showMonth = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
+            }
+            ExposedDropdownMenuBox(
+                expanded = showYear,
+                onExpandedChange = { showYear = !showYear },
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .padding(bottom = 15.dp)
+                    .width(110.dp)
+            ) {
+                //keyboardController?.hide()
+                TextField(
+                    value = selectedYear,
+                    onValueChange = { },
+                    readOnly = true,
+                    modifier = Modifier.menuAnchor(),
+                    trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
+                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = showYear,
+                    onDismissRequest = {showYear = false}
+                ) {
+                    yearList.forEachIndexed { _, s ->
+                        DropdownMenuItem(
+                            text = {Text(text = s)},
+                            onClick = {
+                                if (s != yearList[0]){
+                                    selectedYear = s
+                                }
+                                showYear = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
+            }
+        }
+
         OutlinedTextField(
             value = mood,
             onValueChange = {mood = it},
@@ -198,112 +314,6 @@ fun ContentEditScreen(
                 .height(300.dp)
                 .verticalScroll(rememberScrollState())
         )
-        Row {
-            ExposedDropdownMenuBox(
-                expanded = showDays,
-                onExpandedChange = { showDays = !showDays },
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 15.dp)
-                    .width(100.dp)
-            ) {
-                //keyboardController?.hide() REVISAR
-                TextField(
-                    value = selectedDay,
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier.menuAnchor(),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
-                    expanded = showDays,
-                    onDismissRequest = {showDays = false}
-                ) {
-                    dayList.forEachIndexed { _, s ->
-                        DropdownMenuItem(
-                            text = { Text(text = s)},
-                            onClick = {
-                                if (s != dayList[0]){
-                                    selectedDay = s
-                                }
-                                showDays = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-            ExposedDropdownMenuBox(
-                expanded = showMonth,
-                onExpandedChange = { showMonth = !showMonth },
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 15.dp)
-                    .width(100.dp)
-            ) {
-                //keyboardController?.hide() REVISAR
-                TextField(
-                    value = selectedMonth,
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier.menuAnchor(),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
-                    expanded = showMonth,
-                    onDismissRequest = {showMonth = false}
-                ) {
-                    monthList.forEachIndexed { _, s ->
-                        DropdownMenuItem(
-                            text = {Text(text = s)},
-                            onClick = {
-                                if (s != monthList[0]){
-                                    selectedMonth = s
-                                }
-                                showMonth = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-        }
-        ExposedDropdownMenuBox(
-            expanded = showYear,
-            onExpandedChange = { showYear = !showYear },
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 15.dp)
-        ) {
-            //keyboardController?.hide()
-            TextField(
-                value = selectedYear,
-                onValueChange = { },
-                readOnly = true,
-                modifier = Modifier.menuAnchor(),
-                trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
-                expanded = showYear,
-                onDismissRequest = {showYear = false}
-            ) {
-                yearList.forEachIndexed { _, s ->
-                    DropdownMenuItem(
-                        text = {Text(text = s)},
-                        onClick = {
-                            if (s != yearList[0]){
-                                selectedYear = s
-                            }
-                            showYear = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
-            }
-        }
         //REVISAR
         if(openDialog.value) {
             AlertDialog(
@@ -323,7 +333,7 @@ fun ContentEditScreen(
                                 selectedYear
                             )
                             viewModel.updateEntry(entry)
-                            navController.popBackStack()
+                            navController.popBackStack("calendar", inclusive = false)
                         }) {
                         Text(text = "Aceptar")
                     }

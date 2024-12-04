@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -171,12 +172,22 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                             maxLines = 1,
                         )
                         Text(
-                            text = "${it.year}/ ${it.month}/ ${it.day}",
+                            text = "${it.day} / ${it.month} / ${it.year}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Row(
                             modifier= Modifier.fillMaxSize()
                         ){
+                            IconButton(
+                                onClick = {
+                                    navController.navigate("preview/${it
+                                        .idEntry}/${it.mood}/${it.score}/${it
+                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                }
+                            ) {
+                                Icon(Icons.Filled.Info, contentDescription
+                                = "EntryPreview")
+                            }
                             IconButton(
                                 onClick = {navController.navigate("edit/${it
                                     .idEntry}/${it.mood}/${it.score}/${it

@@ -71,6 +71,7 @@ fun ListScreen(navController: NavController, viewModel: EntryViewModel){
         ContentListScreen(it, navController, viewModel)
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentListScreen(it: PaddingValues, navController: NavController,
                       viewModel: EntryViewModel){
@@ -85,6 +86,9 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                      .sortedBy { it.month }
            ){
                 Card (
+                    onClick = {navController.navigate("preview/${it
+                        .idEntry}/${it.mood}/${it.score}/${it
+                        .memory}/${it.day}/${it.month}/${it.year}")},
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(),
@@ -109,7 +113,7 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             maxLines = 1,
                         )
                         Text(
-                            text = "${it.year}/ ${it.month}/ ${it.day}",
+                            text = "${it.day} / ${it.month} / ${it.year}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Row(
@@ -117,7 +121,9 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                         ){
                             IconButton(
                                 onClick = {
-
+                                    navController.navigate("preview/${it
+                                        .idEntry}/${it.mood}/${it.score}/${it
+                                        .memory}/${it.day}/${it.month}/${it.year}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, contentDescription
