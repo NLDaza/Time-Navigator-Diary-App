@@ -306,7 +306,7 @@ fun ContentAddScreen(
         Button(
             onClick = {
                     val entry = Entry(
-                        idEntry = System.currentTimeMillis().toString(), // Usamos el tiempo actual como ID
+                        idEntry = 0,
                         mood = mood,
                         score = score,
                         memory = memory,

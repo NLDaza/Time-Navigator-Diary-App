@@ -19,4 +19,7 @@ interface EntryDatabaseDao {
 
     @Query("SELECT * FROM entries")
     fun getAllEntries(): Flow<List<Entry>>
+
+    @Query("SELECT * FROM entries WHERE idEntry = :id LIMIT 1")
+    suspend fun getEntryById(id: Int): Entry?
 }

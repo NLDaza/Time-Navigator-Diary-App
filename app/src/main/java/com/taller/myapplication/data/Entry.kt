@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity (tableName= "entries")
 data class Entry (
-    @PrimaryKey(autoGenerate = false)
-    val idEntry: String,
+    @PrimaryKey(autoGenerate = true)
+    val idEntry: Int,
     @ColumnInfo ("mood")
     val mood: String,
     @ColumnInfo ("score")

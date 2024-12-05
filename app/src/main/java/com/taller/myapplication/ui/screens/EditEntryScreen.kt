@@ -52,7 +52,7 @@ import java.util.Objects
 fun EditEntryScreen(
     navController: NavController,
     viewModel: EntryViewModel,
-    idEntry: String,
+    idEntry: Int,
     mood: String,
     score: String,
     memory: String,
@@ -98,7 +98,7 @@ fun ContentEditScreen(
     it: PaddingValues,
     navController: NavController,
     viewModel: EntryViewModel,
-    idEntry: String,
+    idEntry: Int,
     mood: String,
     score: String,
     memory: String,

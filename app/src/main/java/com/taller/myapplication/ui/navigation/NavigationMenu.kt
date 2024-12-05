@@ -44,7 +44,7 @@ fun NavigationMenu(
             SettingsScreen(navController)
         }
         composable("preview/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",arguments = listOf(
-            navArgument("idEntry"){type = NavType.StringType},
+            navArgument("idEntry"){type = NavType.IntType},
             navArgument("mood"){type = NavType.StringType},
             navArgument("score"){type = NavType.StringType},
             navArgument("memory"){type = NavType.StringType},
@@ -55,7 +55,7 @@ fun NavigationMenu(
             PreviewEditEntryScreen(
                 navController,
                 viewmodel,
-                it.arguments?.getString("idEntry")!!,
+                it.arguments?.getInt("idEntry")!!,
                 it.arguments?.getString("mood")!!,
                 it.arguments?.getString("score")!!,
                 it.arguments?.getString("memory")!!,
@@ -67,7 +67,7 @@ fun NavigationMenu(
 
         composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",
                    arguments = listOf(
-                       navArgument("idEntry"){type = NavType.StringType},
+                       navArgument("idEntry"){type = NavType.IntType},
                        navArgument("mood"){type = NavType.StringType},
                        navArgument("score"){type = NavType.StringType},
                        navArgument("memory"){type = NavType.StringType},
@@ -78,7 +78,7 @@ fun NavigationMenu(
             EditEntryScreen(
                 navController,
                 viewmodel,
-                it.arguments?.getString("idEntry")!!,
+                it.arguments?.getInt("idEntry")!!,
                 it.arguments?.getString("mood")!!,
                 it.arguments?.getString("score")!!,
                 it.arguments?.getString("memory")!!,

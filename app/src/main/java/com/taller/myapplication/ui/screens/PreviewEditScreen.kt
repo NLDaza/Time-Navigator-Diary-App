@@ -36,7 +36,7 @@ import com.taller.myapplication.ui.viewmodels.EntryViewModel
 fun PreviewEditEntryScreen(
     navController: NavController,
     viewModel: EntryViewModel,
-    idEntry: String,
+    idEntry: Int,
     mood: String,
     score: String,
     memory: String,
@@ -80,7 +80,7 @@ fun ContentPreviewEditScreen(
     it: PaddingValues,
     navController: NavController,
     viewModel: EntryViewModel, //Aunque parezca que no se usa, es necesario para que se pasen el resto de datos.
-    idEntry: String,
+    idEntry: Int,
     mood: String,
     score: String,
     memory: String,

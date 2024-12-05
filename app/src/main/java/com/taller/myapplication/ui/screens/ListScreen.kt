@@ -104,6 +104,10 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Text(
+                            text = "id: ${it.idEntry}",
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                        Text(
                             text = it.day,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
