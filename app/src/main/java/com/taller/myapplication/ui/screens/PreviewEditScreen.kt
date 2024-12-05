@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,13 +37,7 @@ import com.taller.myapplication.ui.viewmodels.EntryViewModel
 fun PreviewEditEntryScreen(
     navController: NavController,
     viewModel: EntryViewModel,
-    idEntry: Int,
-    mood: String,
-    score: String,
-    memory: String,
-    day: String,
-    month: String,
-    year: String
+    idEntry: Int
 ) {
     Scaffold (
         topBar = {
@@ -71,7 +66,7 @@ fun PreviewEditEntryScreen(
 
         ){
         ContentPreviewEditScreen(
-            it, navController, viewModel, idEntry, mood, score, memory,day, month, year
+            it, navController, viewModel, idEntry
         )
     }
 }
@@ -80,14 +75,17 @@ fun ContentPreviewEditScreen(
     it: PaddingValues,
     navController: NavController,
     viewModel: EntryViewModel, //Aunque parezca que no se usa, es necesario para que se pasen el resto de datos.
-    idEntry: Int,
-    mood: String,
-    score: String,
-    memory: String,
-    day: String,
-    month: String,
-    year: String){
-    val decodedMemory = Uri.decode(memory) // Decodifica "memory"
+    idEntry: Int){
+    LaunchedEffect(idEntry) {
+        viewModel.getEntryById(idEntry)
+    }
+    val selectedEntry = viewModel.selectedEntry
+    val day :String? = selectedEntry?.day
+    val month :String? = selectedEntry?.month
+    val year :String? = selectedEntry?.year
+    val mood :String = selectedEntry?.mood ?: ""
+    val score :String = selectedEntry?.score ?: ""
+    val memory :String = selectedEntry?.memory ?: ""
 
     Column (
         modifier = Modifier
@@ -98,16 +96,17 @@ fun ContentPreviewEditScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         PreviewEditText(text = "Fecha: ${day} / ${month} / ${year} ", modifier = Modifier)
+
         PreviewEditText(text = mood, modifier = Modifier)
         PreviewEditText(text = "Puntuación: ${score}", modifier = Modifier)
 
-        PreviewEditText(text = decodedMemory,
+        PreviewEditText(text = memory,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(380.dp)
                             .verticalScroll(rememberScrollState())
         )
-        Button(onClick = {navController.navigate("edit/${idEntry}/${mood}/${score}/${memory}/${day}/${month}/${year}")
+        Button(onClick = {navController.navigate("edit/${idEntry}")
         }
         ) {
             Text(text = "Modificar entrada")

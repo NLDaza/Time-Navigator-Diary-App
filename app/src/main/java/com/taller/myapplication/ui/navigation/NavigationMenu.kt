@@ -43,49 +43,25 @@ fun NavigationMenu(
         composable("settings"){
             SettingsScreen(navController)
         }
-        composable("preview/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",arguments = listOf(
+        composable("preview/{idEntry}",arguments = listOf(
             navArgument("idEntry"){type = NavType.IntType},
-            navArgument("mood"){type = NavType.StringType},
-            navArgument("score"){type = NavType.StringType},
-            navArgument("memory"){type = NavType.StringType},
-            navArgument("day"){type = NavType.StringType},
-            navArgument("month"){type = NavType.StringType},
-            navArgument("year"){type = NavType.StringType},
         )){
-            PreviewEditEntryScreen(
-                navController,
-                viewmodel,
-                it.arguments?.getInt("idEntry")!!,
-                it.arguments?.getString("mood")!!,
-                it.arguments?.getString("score")!!,
-                it.arguments?.getString("memory")!!,
-                it.arguments?.getString("day")!!,
-                it.arguments?.getString("month")!!,
-                it.arguments?.getString("year")!!,
-            )
+                backStackEntry ->
+            val idEntry = backStackEntry.arguments?.getInt("idEntry")
+            idEntry?.let {
+                PreviewEditEntryScreen(navController, viewmodel, it)
+            }
         }
 
-        composable("edit/{idEntry}/{mood}/{score}/{memory}/{day}/{month}/{year}",
+        composable("edit/{idEntry}",
                    arguments = listOf(
                        navArgument("idEntry"){type = NavType.IntType},
-                       navArgument("mood"){type = NavType.StringType},
-                       navArgument("score"){type = NavType.StringType},
-                       navArgument("memory"){type = NavType.StringType},
-                       navArgument("day"){type = NavType.StringType},
-                       navArgument("month"){type = NavType.StringType},
-                       navArgument("year"){type = NavType.StringType},
                    )){
-            EditEntryScreen(
-                navController,
-                viewmodel,
-                it.arguments?.getInt("idEntry")!!,
-                it.arguments?.getString("mood")!!,
-                it.arguments?.getString("score")!!,
-                it.arguments?.getString("memory")!!,
-                it.arguments?.getString("day")!!,
-                it.arguments?.getString("month")!!,
-                it.arguments?.getString("year")!!,
-            )
+                backStackEntry ->
+            val idEntry = backStackEntry.arguments?.getInt("idEntry")
+            idEntry?.let {
+                EditEntryScreen(navController, viewmodel, it)
+            }
         }
 
     }

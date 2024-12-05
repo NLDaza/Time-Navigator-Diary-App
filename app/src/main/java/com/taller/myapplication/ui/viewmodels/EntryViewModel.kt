@@ -16,6 +16,8 @@ class EntryViewModel (
 ): ViewModel() {
     var state by mutableStateOf(EntryState())
         private set
+    var selectedEntry by mutableStateOf<Entry?>(null)
+        private set
     //Definimos init, para que cada vez que se abra la app, ejecute esto en
     // primer lugar, que se obtengan las entradas de la base de datos para
     // luego mostrarlas al usuario.
@@ -35,5 +37,8 @@ class EntryViewModel (
     }
     fun deleteEntry(entry: Entry) = viewModelScope.launch {
         dao.deleteEntry(entry)
+    }
+    fun getEntryById(idEntry: Int )= viewModelScope.launch {
+        selectedEntry = dao.getEntryById(idEntry)
     }
 }

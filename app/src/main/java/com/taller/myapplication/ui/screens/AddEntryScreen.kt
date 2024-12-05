@@ -181,9 +181,7 @@ fun ContentAddScreen(
                         DropdownMenuItem(
                             text = { Text(text = s)},
                             onClick = {
-                                if (s != dayList[0]){
                                     selectedDay = s
-                                }
                                 showDays = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -216,9 +214,7 @@ fun ContentAddScreen(
                         DropdownMenuItem(
                             text = {Text(text = s)},
                             onClick = {
-                                if (s != monthList[0]){
-                                    selectedMonth = s
-                                }
+                                selectedMonth = s
                                 showMonth = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -251,9 +247,7 @@ fun ContentAddScreen(
                         DropdownMenuItem(
                             text = {Text(text = s)},
                             onClick = {
-                                if (s != yearList[0]){
-                                    selectedYear = s
-                                }
+                                selectedYear = s
                                 showYear = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

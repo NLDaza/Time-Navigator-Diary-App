@@ -31,6 +31,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,13 +53,7 @@ import java.util.Objects
 fun EditEntryScreen(
     navController: NavController,
     viewModel: EntryViewModel,
-    idEntry: Int,
-    mood: String,
-    score: String,
-    memory: String,
-    day: String,
-    month: String,
-    year: String
+    idEntry: Int
 ) {
     Scaffold (
         topBar = {
@@ -87,7 +82,7 @@ fun EditEntryScreen(
 
         ){
         ContentEditScreen(
-            it, navController, viewModel, idEntry, mood, score, memory,day, month, year
+            it, navController, viewModel, idEntry
         )
     }
 }
@@ -99,12 +94,6 @@ fun ContentEditScreen(
     navController: NavController,
     viewModel: EntryViewModel,
     idEntry: Int,
-    mood: String,
-    score: String,
-    memory: String,
-    day: String,
-    month: String,
-    year: String
 ) {
     //REVISAR
     //Creamos una variable que al abrirse, oculte el teclado virtual.
@@ -112,11 +101,14 @@ fun ContentEditScreen(
 
     //Creamos variables para almacenar y detectar cuando se estan cambiando
 // los elementos que el usuario introduce
-
-    var mood by remember { mutableStateOf(mood) }
-    var score by remember { mutableStateOf(score) }
-    val decodedMemory = Uri.decode(memory) // Decodifica "memory"
-    var memory by remember { mutableStateOf(decodedMemory) }
+    LaunchedEffect(idEntry) {
+        viewModel.getEntryById(idEntry)
+    }
+    val selectedEntry = viewModel.selectedEntry
+    val idEntrytest = selectedEntry?.idEntry ?: 0
+    var mood by remember { mutableStateOf(selectedEntry?.mood) }
+    var score by remember { mutableStateOf(selectedEntry?.score) }
+    var memory by remember { mutableStateOf(selectedEntry?.memory) }
 
     //Para crear una lista desplegable REVISAR
     val dayList: MutableList<String> = ArrayList()
@@ -129,7 +121,7 @@ fun ContentEditScreen(
         mutableStateOf(false)
     }
     var selectedDay by remember {
-        mutableStateOf(day)
+        mutableStateOf(selectedEntry?.day)
     }
     val monthList: MutableList<String> = ArrayList()
     for (i in 1..12 ){
@@ -140,15 +132,15 @@ fun ContentEditScreen(
         mutableStateOf(false)
     }
     var selectedMonth by remember {
-        mutableStateOf(month)
+        mutableStateOf(selectedEntry?.month)
     }
-    val intYear = year.toInt()
+    val intYear = selectedEntry?.year?.toInt() ?: 2024
     val yearList = listOf(Objects.toString(intYear - 4), Objects.toString(intYear - 3), Objects.toString(intYear - 2), Objects.toString(intYear - 1), Objects.toString(intYear), Objects.toString(intYear + 1), Objects.toString(intYear + 2), Objects.toString(intYear + 3), Objects.toString(intYear + 4))
     var showYear by remember {
         mutableStateOf(false)
     }
     var selectedYear by remember {
-        mutableStateOf(year)
+        mutableStateOf(selectedEntry?.year)
     }
     //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
     // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
@@ -165,6 +157,9 @@ fun ContentEditScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row {
+            TextField(value = idEntrytest.toString(), onValueChange = {} )
+        }
+        Row {
             TextAddScreen(text = "Día")
             TextAddScreen(text = "Mes")
             TextAddScreen(text = "Año")
@@ -180,7 +175,7 @@ fun ContentEditScreen(
             ) {
                 //keyboardController?.hide() REVISAR
                 TextField(
-                    value = selectedDay,
+                    value = selectedDay ?: "",
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -195,9 +190,7 @@ fun ContentEditScreen(
                         DropdownMenuItem(
                             text = { Text(text = s)},
                             onClick = {
-                                if (s != dayList[0]){
-                                    selectedDay = s
-                                }
+                                selectedDay = s
                                 showDays = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -215,7 +208,7 @@ fun ContentEditScreen(
             ) {
                 //keyboardController?.hide() REVISAR
                 TextField(
-                    value = selectedMonth,
+                    value = selectedMonth ?: "",
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -230,9 +223,7 @@ fun ContentEditScreen(
                         DropdownMenuItem(
                             text = {Text(text = s)},
                             onClick = {
-                                if (s != monthList[0]){
-                                    selectedMonth = s
-                                }
+                                selectedMonth = s
                                 showMonth = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -250,7 +241,7 @@ fun ContentEditScreen(
             ) {
                 //keyboardController?.hide()
                 TextField(
-                    value = selectedYear,
+                    value = selectedYear ?: "",
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -265,9 +256,7 @@ fun ContentEditScreen(
                         DropdownMenuItem(
                             text = {Text(text = s)},
                             onClick = {
-                                if (s != yearList[0]){
-                                    selectedYear = s
-                                }
+                                selectedYear = s
                                 showYear = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -278,7 +267,7 @@ fun ContentEditScreen(
         }
 
         OutlinedTextField(
-            value = mood,
+            value = mood ?: "",
             onValueChange = {mood = it},
             label = {Text(text = "Mood")},
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
@@ -289,7 +278,7 @@ fun ContentEditScreen(
                 .padding(bottom = 10.dp)
         )
         OutlinedTextField(
-            value = score,
+            value = score ?: "",
             onValueChange = {
                 if ((it.length <= maxScore)){
                     score = it
@@ -304,7 +293,7 @@ fun ContentEditScreen(
                 .padding(bottom = 10.dp)
         )
         OutlinedTextField(
-            value = memory,
+            value = memory ?: "",
             onValueChange = {memory = it},
             label = {Text(text = "Memory")},
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
@@ -327,12 +316,12 @@ fun ContentEditScreen(
                         onClick = {
                             val entry = Entry(
                                 idEntry,
-                                mood,
-                                score,
-                                memory,
-                                selectedDay,
-                                selectedMonth,
-                                selectedYear
+                                mood ?: "",
+                                score ?: "",
+                                memory ?: "",
+                                selectedDay ?: "",
+                                selectedMonth ?: "",
+                                selectedYear ?: ""
                             )
                             viewModel.updateEntry(entry)
                             navController.popBackStack("calendar", inclusive = false)

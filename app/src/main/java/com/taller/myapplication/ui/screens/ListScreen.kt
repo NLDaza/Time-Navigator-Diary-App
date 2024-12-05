@@ -86,9 +86,9 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                      .sortedBy { it.month }
            ){
                 Card (
-                    onClick = {navController.navigate("preview/${it
-                        .idEntry}/${it.mood}/${it.score}/${it
-                        .memory}/${it.day}/${it.month}/${it.year}")},
+                    onClick = {
+                        navController.navigate("preview/${it.idEntry}")
+                    },
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(),
@@ -125,18 +125,14 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                         ){
                             IconButton(
                                 onClick = {
-                                    navController.navigate("preview/${it
-                                        .idEntry}/${it.mood}/${it.score}/${it
-                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                    navController.navigate("preview/${it.idEntry}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, contentDescription
                                 = "EntryPreview")
                             }
                             IconButton(
-                                onClick = {navController.navigate("edit/${it
-                                    .idEntry}/${it.mood}/${it.score}/${it
-                                        .memory}/${it.day}/${it.month}/${it.year}")
+                                onClick = {navController.navigate("edit/${it.idEntry}")
                                 }
                             ) {
                                 Icon(Icons.Filled.Edit,contentDescription =
