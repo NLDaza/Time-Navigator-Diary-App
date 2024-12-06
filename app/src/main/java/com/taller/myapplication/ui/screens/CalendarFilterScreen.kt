@@ -96,13 +96,13 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
         //.sortedBy { it.month }
         .sortedWith(compareBy({ it.month }, { it.day }))
     if(dayFilter != "") {
-        filteredEntryList = filteredEntryList.filter { it.day == dayFilter}
+        filteredEntryList = filteredEntryList.filter { it.day == dayFilter.toInt()}
     }
     if(monthFilter != "") {
-        filteredEntryList = filteredEntryList.filter { it.month == monthFilter}
+        filteredEntryList = filteredEntryList.filter { it.month == monthFilter.toInt()}
     }
     if(yearFilter != "") {
-        filteredEntryList = filteredEntryList.filter { it.year == yearFilter}
+        filteredEntryList = filteredEntryList.filter { it.year == yearFilter.toInt()}
     }
     //Para que se filtre y sean necesarias todos los campos (opcional)
     //filteredEntryList = filteredEntryList.filter { it.day == dayFilter && it.month == monthFilter && it.year ==yearFilter}
@@ -162,10 +162,6 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                             .fillMaxSize()
                             .padding(10.dp)
                     ){
-                        Text(
-                            text = "Puntos: ${it.score}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
                         Text(
                             text = " Mood: ${it.mood}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)

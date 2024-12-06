@@ -101,7 +101,7 @@ fun ContentPreviewEditScreen(
             PreviewEditText(text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ", modifier = Modifier)
 
             PreviewEditText(text = selectedEntry.mood, modifier = Modifier)
-            PreviewEditText(text = "Puntuación: ${selectedEntry.score}", modifier = Modifier)
+
 
             PreviewEditText(text = selectedEntry.memory,
                             modifier = Modifier

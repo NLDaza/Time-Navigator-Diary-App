@@ -10,14 +10,12 @@ data class Entry (
     val idEntry: Int,
     @ColumnInfo ("mood")
     val mood: String,
-    @ColumnInfo ("score")
-    val score: String,
     @ColumnInfo ("memory")
     val memory: String,
     @ColumnInfo ("day")
-    val day: String,
+    val day: Int,
     @ColumnInfo ("month")
-    val month: String,
+    val month: Int,
     @ColumnInfo ("year")
-    val year: String
+    val year: Int
 )

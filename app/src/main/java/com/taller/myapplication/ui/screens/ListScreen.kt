@@ -100,18 +100,11 @@ fun ContentListScreen(it: PaddingValues, navController: NavController,
                             .padding(10.dp)
                     ){
                         Text(
-                            text = it.score,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            text = it.mood,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            maxLines = 1,
                         )
                         Text(
-                            text = "id: ${it.idEntry}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Text(
-                            text = it.day,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Text(//REVISAR
                             text = it.memory,
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             maxLines = 1,

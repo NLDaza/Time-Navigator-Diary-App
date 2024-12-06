@@ -96,10 +96,9 @@ fun ContentAddScreen(
 // los elementos que el usuario introduce
 
     var mood by remember { mutableStateOf("") }
-    var score by remember { mutableStateOf("") }
     var memory by remember { mutableStateOf("") }
 
-    var date: Date = Date()// your date
+    val date = Date()// your date
     //https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
     // Choose time zone in which you want to interpret your Date
     val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
@@ -109,9 +108,9 @@ fun ContentAddScreen(
     val day = cal[Calendar.DAY_OF_MONTH]
 
     //Para crear una lista desplegable REVISAR
-    val dayList: MutableList<String> = ArrayList()
+    val dayList: MutableList<Int> = ArrayList()
         for (i in 1..31) {
-            dayList.add(i.toString())
+            dayList.add(i)
         }
     var showDays by remember {
         mutableStateOf(false)
@@ -119,9 +118,9 @@ fun ContentAddScreen(
     var selectedDay by remember {
         mutableStateOf(dayList[day-1])
     }
-    val monthList: MutableList<String> = ArrayList()
+    val monthList: MutableList<Int> = ArrayList()
     for (i in 1..12 ){
-        monthList.add(i.toString())
+        monthList.add(i)
     }
     var showMonth by remember {
         mutableStateOf(false)
@@ -129,7 +128,7 @@ fun ContentAddScreen(
     var selectedMonth by remember {
         mutableStateOf(monthList[month])//En Java los meses empiezan en 0, al contrario que los dias que empiezan en 1
     }//https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html
-    val yearList = listOf( toString(year-4), toString(year-3), toString(year-2) , toString(year-1), toString(year), toString(year+1), toString(year+2), toString(year +3), toString(year+4) )
+    val yearList = listOf( year-4, year-3, year-2 , year-1, year, year+1, year+2, year +3, year+4 )
 
     var showYear by remember {
         mutableStateOf(false)
@@ -137,11 +136,6 @@ fun ContentAddScreen(
     var selectedYear by remember {
         mutableStateOf(yearList[4])
     }
-    //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
-    // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
-    // 9 numeros en vez de 2
-    val maxScore = 2
-
     Column (
         modifier = Modifier
             .padding(it)
@@ -166,7 +160,7 @@ fun ContentAddScreen(
             ) {
                 //keyboardController?.hide()
                 TextField(
-                    value = selectedDay,
+                    value = selectedDay.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -179,7 +173,7 @@ fun ContentAddScreen(
                 ) {
                     dayList.forEachIndexed { _, s ->
                         DropdownMenuItem(
-                            text = { Text(text = s)},
+                            text = { Text(text = s.toString())},
                             onClick = {
                                     selectedDay = s
                                 showDays = false
@@ -199,7 +193,7 @@ fun ContentAddScreen(
             ) {
                 //keyboardController?.hide()
                 TextField(
-                    value = selectedMonth,
+                    value = selectedMonth.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -212,7 +206,7 @@ fun ContentAddScreen(
                 ) {
                     monthList.forEachIndexed { _, s ->
                         DropdownMenuItem(
-                            text = {Text(text = s)},
+                            text = {Text(text = s.toString())},
                             onClick = {
                                 selectedMonth = s
                                 showMonth = false
@@ -232,7 +226,7 @@ fun ContentAddScreen(
             ) {
                 //keyboardController?.hide()
                 TextField(
-                    value = selectedYear,
+                    value = selectedYear.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
@@ -245,7 +239,7 @@ fun ContentAddScreen(
                 ) {
                     yearList.forEachIndexed { _, s ->
                         DropdownMenuItem(
-                            text = {Text(text = s)},
+                            text = {Text(text = s.toString())},
                             onClick = {
                                 selectedYear = s
                                 showYear = false
@@ -269,21 +263,7 @@ fun ContentAddScreen(
                 .padding(bottom = 10.dp)
 
         )
-        OutlinedTextField(
-            value = score,
-            onValueChange = {
-                if ((it.length <= maxScore)){
-                    score = it
-                }
-            },
-            label = {Text(text = "Score")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
-        )
+
         OutlinedTextField(
             value = memory,
             onValueChange = {memory = it},
@@ -302,7 +282,6 @@ fun ContentAddScreen(
                     val entry = Entry(
                         idEntry = 0,
                         mood = mood,
-                        score = score,
                         memory = memory,
                         day = selectedDay,
                         month = selectedMonth,
