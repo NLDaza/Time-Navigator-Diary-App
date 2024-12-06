@@ -59,6 +59,7 @@ fun MenuScreen(navController: NavController){
                       onClick = {navController.navigate("add")}
         )
         Spacer(modifier = Modifier.height(15.dp))
+        //ELIMINAR LISTA DE ENTRADAS, REDUNDANTE
         CustomBtnMenu(btnText = { Text(stringResource(id = R.string
             .entries_list))},
                       btnIcon = { Icon(Icons.Filled.List, contentDescription = null)},

@@ -80,6 +80,7 @@ fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel
         ContentCalendarScreen(it, navController, viewModel)
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                       viewModel: EntryViewModel){
@@ -91,8 +92,9 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
     var yearFilter by rememberSaveable { mutableStateOf("") }
     //Se
     var filteredEntryList = state.entryList
-        .sortedByDescending { it.day }
-        .sortedBy { it.month }
+        //.sortedByDescending { it.day }
+        //.sortedBy { it.month }
+        .sortedWith(compareBy({ it.month }, { it.day }))
     if(dayFilter != "") {
         filteredEntryList = filteredEntryList.filter { it.day == dayFilter}
     }
@@ -152,7 +154,8 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp)
+                    shape = RoundedCornerShape(5.dp),
+                    onClick = { navController.navigate("preview/${it.idEntry}") }
                 ){
                     Column (
                         modifier = Modifier
@@ -160,15 +163,15 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                             .padding(10.dp)
                     ){
                         Text(
-                            text = it.score,
+                            text = "Puntos: ${it.score}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Text(
-                            text = it.day,
+                            text = " Mood: ${it.mood}",
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
                         Text(//REVISAR
-                            text = it.memory,
+                            text = "Memory: ${it.memory}",
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             maxLines = 1,
                         )

@@ -104,253 +104,255 @@ fun ContentEditScreen(
     LaunchedEffect(idEntry) {
         viewModel.getEntryById(idEntry)
     }
+    val paddingValues = it
     val selectedEntry = viewModel.selectedEntry
-    val idEntrytest = selectedEntry?.idEntry ?: 0
-    var mood by remember { mutableStateOf(selectedEntry?.mood) }
-    var score by remember { mutableStateOf(selectedEntry?.score) }
-    var memory by remember { mutableStateOf(selectedEntry?.memory) }
+    selectedEntry?.let {
+        val idEntrytest = selectedEntry?.idEntry ?: 0
+        var mood by remember { mutableStateOf(selectedEntry.mood) }
+        var score by remember { mutableStateOf(selectedEntry.score) }
+        var memory by remember { mutableStateOf(selectedEntry.memory) }
 
-    //Para crear una lista desplegable REVISAR
-    val dayList: MutableList<String> = ArrayList()
+        //Para crear una lista desplegable REVISAR
+        val dayList: MutableList<String> = ArrayList()
 
-    for (i in 1..31) {
-        dayList.add(i.toString())
-    }
-    //Para crear una lista desplegable
-    var showDays by remember {
-        mutableStateOf(false)
-    }
-    var selectedDay by remember {
-        mutableStateOf(selectedEntry?.day)
-    }
-    val monthList: MutableList<String> = ArrayList()
-    for (i in 1..12 ){
-        monthList.add(i.toString())
-    }
-    //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
-    var showMonth by remember {
-        mutableStateOf(false)
-    }
-    var selectedMonth by remember {
-        mutableStateOf(selectedEntry?.month)
-    }
-    val intYear = selectedEntry?.year?.toInt() ?: 2024
-    val yearList = listOf(Objects.toString(intYear - 4), Objects.toString(intYear - 3), Objects.toString(intYear - 2), Objects.toString(intYear - 1), Objects.toString(intYear), Objects.toString(intYear + 1), Objects.toString(intYear + 2), Objects.toString(intYear + 3), Objects.toString(intYear + 4))
-    var showYear by remember {
-        mutableStateOf(false)
-    }
-    var selectedYear by remember {
-        mutableStateOf(selectedEntry?.year)
-    }
-    //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
-    // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
-    // 9 numeros en vez de 2
-    val maxScore = 2
-
-    val openDialog = remember { mutableStateOf(false) }
-    Column (
-        modifier = Modifier
-            .padding(it)
-            .padding(top = 20.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row {
-            TextField(value = idEntrytest.toString(), onValueChange = {} )
+        for (i in 1..31) {
+            dayList.add(i.toString())
         }
-        Row {
-            TextAddScreen(text = "Día")
-            TextAddScreen(text = "Mes")
-            TextAddScreen(text = "Año")
+        //Para crear una lista desplegable
+        var showDays by remember {
+            mutableStateOf(false)
         }
-        Row {
-            ExposedDropdownMenuBox(
-                expanded = showDays,
-                onExpandedChange = { showDays = !showDays },
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
-                    .padding(bottom = 15.dp)
-                    .width(100.dp)
-            ) {
-                //keyboardController?.hide() REVISAR
-                TextField(
-                    value = selectedDay ?: "",
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier.menuAnchor(),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
+        var selectedDay by remember {
+            mutableStateOf(selectedEntry.day)
+        }
+        val monthList: MutableList<String> = ArrayList()
+        for (i in 1..12 ){
+            monthList.add(i.toString())
+        }
+        //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
+        var showMonth by remember {
+            mutableStateOf(false)
+        }
+        var selectedMonth by remember {
+            mutableStateOf(selectedEntry.month)
+        }
+        val intYear = selectedEntry.year.toInt()
+        val yearList = listOf(Objects.toString(intYear - 4), Objects.toString(intYear - 3), Objects.toString(intYear - 2), Objects.toString(intYear - 1), Objects.toString(intYear), Objects.toString(intYear + 1), Objects.toString(intYear + 2), Objects.toString(intYear + 3), Objects.toString(intYear + 4))
+        var showYear by remember {
+            mutableStateOf(false)
+        }
+        var selectedYear by remember {
+            mutableStateOf(selectedEntry.year)
+        }
+        //Para que la puntuación (score) no sea mayor a 10 (REVISAR), EL MAXIMO
+        // SE REFIERE A CANTIDAD DE NUMEROS, por ejemplo si cambia a 10, aceptara
+        // 9 numeros en vez de 2
+        val maxScore = 2
+
+        val openDialog = remember { mutableStateOf(false) }
+
+        Column (
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(top = 20.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row {
+                TextAddScreen(text = "Día")
+                TextAddScreen(text = "Mes")
+                TextAddScreen(text = "Año")
+            }
+            Row {
+                ExposedDropdownMenuBox(
                     expanded = showDays,
-                    onDismissRequest = {showDays = false}
+                    onExpandedChange = { showDays = !showDays },
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .padding(bottom = 15.dp)
+                        .width(100.dp)
                 ) {
-                    dayList.forEachIndexed { _, s ->
-                        DropdownMenuItem(
-                            text = { Text(text = s)},
-                            onClick = {
-                                selectedDay = s
-                                showDays = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-            ExposedDropdownMenuBox(
-                expanded = showMonth,
-                onExpandedChange = { showMonth = !showMonth },
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
-                    .padding(bottom = 15.dp)
-                    .width(100.dp)
-            ) {
-                //keyboardController?.hide() REVISAR
-                TextField(
-                    value = selectedMonth ?: "",
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier.menuAnchor(),
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
-                    expanded = showMonth,
-                    onDismissRequest = {showMonth = false}
-                ) {
-                    monthList.forEachIndexed { _, s ->
-                        DropdownMenuItem(
-                            text = {Text(text = s)},
-                            onClick = {
-                                selectedMonth = s
-                                showMonth = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-            ExposedDropdownMenuBox(
-                expanded = showYear,
-                onExpandedChange = { showYear = !showYear },
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
-                    .padding(bottom = 15.dp)
-                    .width(110.dp)
-            ) {
-                //keyboardController?.hide()
-                TextField(
-                    value = selectedYear ?: "",
-                    onValueChange = { },
-                    readOnly = true,
-                    modifier = Modifier.menuAnchor(),
-                    trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
-                    expanded = showYear,
-                    onDismissRequest = {showYear = false}
-                ) {
-                    yearList.forEachIndexed { _, s ->
-                        DropdownMenuItem(
-                            text = {Text(text = s)},
-                            onClick = {
-                                selectedYear = s
-                                showYear = false
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                        )
-                    }
-                }
-            }
-        }
-
-        OutlinedTextField(
-            value = mood ?: "",
-            onValueChange = {mood = it},
-            label = {Text(text = "Mood")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
-        )
-        OutlinedTextField(
-            value = score ?: "",
-            onValueChange = {
-                if ((it.length <= maxScore)){
-                    score = it
-                }
-            },
-            label = {Text(text = "Score")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
-        )
-        OutlinedTextField(
-            value = memory ?: "",
-            onValueChange = {memory = it},
-            label = {Text(text = "Memory")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Text),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
-                .height(300.dp)
-                .verticalScroll(rememberScrollState())
-        )
-        //REVISAR
-        if(openDialog.value) {
-            AlertDialog(
-                onDismissRequest = {openDialog.value = false},
-                title = {Text (text ="¿Quieres modificar la entrada?")},
-                text = {Text(text = "Los cambios no pueden deshacerse")},
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            val entry = Entry(
-                                idEntry,
-                                mood ?: "",
-                                score ?: "",
-                                memory ?: "",
-                                selectedDay ?: "",
-                                selectedMonth ?: "",
-                                selectedYear ?: ""
+                    //keyboardController?.hide() REVISAR
+                    TextField(
+                        value = selectedDay ?: "",
+                        onValueChange = { },
+                        readOnly = true,
+                        modifier = Modifier.menuAnchor(),
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
+                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = showDays,
+                        onDismissRequest = {showDays = false}
+                    ) {
+                        dayList.forEachIndexed { _, s ->
+                            DropdownMenuItem(
+                                text = { Text(text = s)},
+                                onClick = {
+                                    selectedDay = s
+                                    showDays = false
+                                },
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                             )
-                            viewModel.updateEntry(entry)
-                            navController.popBackStack("calendar", inclusive = false)
-                        }) {
-                        Text(text = "Aceptar")
+                        }
+                    }
+                }
+                ExposedDropdownMenuBox(
+                    expanded = showMonth,
+                    onExpandedChange = { showMonth = !showMonth },
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .padding(bottom = 15.dp)
+                        .width(100.dp)
+                ) {
+                    //keyboardController?.hide() REVISAR
+                    TextField(
+                        value = selectedMonth ?: "",
+                        onValueChange = { },
+                        readOnly = true,
+                        modifier = Modifier.menuAnchor(),
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
+                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = showMonth,
+                        onDismissRequest = {showMonth = false}
+                    ) {
+                        monthList.forEachIndexed { _, s ->
+                            DropdownMenuItem(
+                                text = {Text(text = s)},
+                                onClick = {
+                                    selectedMonth = s
+                                    showMonth = false
+                                },
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                            )
+                        }
+                    }
+                }
+                ExposedDropdownMenuBox(
+                    expanded = showYear,
+                    onExpandedChange = { showYear = !showYear },
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .padding(bottom = 15.dp)
+                        .width(110.dp)
+                ) {
+                    //keyboardController?.hide()
+                    TextField(
+                        value = selectedYear ?: "",
+                        onValueChange = { },
+                        readOnly = true,
+                        modifier = Modifier.menuAnchor(),
+                        trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
+                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = showYear,
+                        onDismissRequest = {showYear = false}
+                    ) {
+                        yearList.forEachIndexed { _, s ->
+                            DropdownMenuItem(
+                                text = {Text(text = s)},
+                                onClick = {
+                                    selectedYear = s
+                                    showYear = false
+                                },
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                            )
+                        }
+                    }
+                }
+            }
+
+            OutlinedTextField(
+                value = mood ?: "",
+                onValueChange = {mood = it},
+                label = {Text(text = "Mood")},
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                               KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 10.dp)
+            )
+            OutlinedTextField(
+                value = score ?: "",
+                onValueChange = {
+                    if ((it.length <= maxScore)){
+                        score = it
                     }
                 },
-                dismissButton = {
-                    TextButton(
-                        onClick = {
-                            openDialog.value = false
-                        }
-                    ) {
-                        Text("Salir")
-                    }
-                }
+                label = {Text(text = "Score")},
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                               KeyboardType.Number),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 10.dp)
             )
+            OutlinedTextField(
+                value = memory ?: "",
+                onValueChange = {memory = it},
+                label = {Text(text = "Memory")},
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
+                                                               KeyboardType.Text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 10.dp)
+                    .height(300.dp)
+                    .verticalScroll(rememberScrollState())
+            )
+            //REVISAR
+            if(openDialog.value) {
+                AlertDialog(
+                    onDismissRequest = {openDialog.value = false},
+                    title = {Text (text ="¿Quieres modificar la entrada?")},
+                    text = {Text(text = "Los cambios no pueden deshacerse")},
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                val entry = Entry(
+                                    idEntry,
+                                    mood ?: "",
+                                    score ?: "",
+                                    memory ?: "",
+                                    selectedDay ?: "",
+                                    selectedMonth ?: "",
+                                    selectedYear ?: ""
+                                )
+                                viewModel.updateEntry(entry)
+                                navController.popBackStack("calendar", inclusive = false)
+                            }) {
+                            Text(text = "Aceptar")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                openDialog.value = false
+                            }
+                        ) {
+                            Text("Salir")
+                        }
+                    }
+                )
+            }
+            Button(
+                onClick = {
+                    openDialog.value= true
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(bottom = 10.dp)
+            ) {
+                Text(text = "Actualizar entrada")
+            }
         }
-        Button(
-            onClick = {
-                openDialog.value= true
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .padding(bottom = 10.dp)
-        ) {
-            Text(text = "Actualizar entrada")
-        }
-    }
+    } ?: Text(text = "Entrada no encontrada")
+
 }
 
