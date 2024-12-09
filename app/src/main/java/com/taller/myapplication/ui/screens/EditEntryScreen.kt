@@ -45,6 +45,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.data.Entry
+import com.taller.myapplication.ui.menu.Backgroundapp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 import java.util.Objects
 
@@ -95,6 +96,7 @@ fun ContentEditScreen(
     viewModel: EntryViewModel,
     idEntry: Int,
 ) {
+    Backgroundapp()
     //REVISAR
     //Creamos una variable que al abrirse, oculte el teclado virtual.
     //val keyboardController = LocalSoftwareKeyboardController.current

@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,9 +24,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.data.Entry
+import com.taller.myapplication.ui.menu.Backgroundapp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 import java.util.Calendar
 import java.util.Date
@@ -89,6 +93,7 @@ fun ContentAddScreen(
     navController: NavController,
     viewModel: EntryViewModel
 ){
+    Backgroundapp()
     //Creamos una variable que al abrirse, oculte el teclado virtual.
     //val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -262,6 +267,7 @@ fun ContentAddScreen(
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
 
+
         )
 
         OutlinedTextField(
@@ -274,8 +280,17 @@ fun ContentAddScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
-                .height(250.dp)
-                .verticalScroll(rememberScrollState())
+                .height(400.dp)
+                .verticalScroll(rememberScrollState()),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                unfocusedBorderColor = Color.Gray,
+                focusedBorderColor = Color.White,
+                //focusedLabelColor = Color.White,
+                unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+                //cursorColor = Color.Black,
+            )
         )
         Button(
             onClick = {

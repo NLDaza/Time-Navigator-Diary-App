@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.taller.myapplication.ui.menu.Backgroundapp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,6 +81,7 @@ fun ContentPreviewEditScreen(
     navController: NavController,
     viewModel: EntryViewModel, //Aunque parezca que no se usa, es necesario para que se pasen el resto de datos.
     idEntry: Int){
+    Backgroundapp()
     LaunchedEffect(idEntry) {
         viewModel.getEntryById(idEntry)
     }

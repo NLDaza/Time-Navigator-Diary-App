@@ -1,6 +1,7 @@
 package com.taller.myapplication.ui.menu
 
 import android.app.Activity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -39,12 +42,15 @@ import com.taller.myapplication.R
 
 @Composable //Revisar los contentdescription, menu mejorado
 fun MenuScreen(navController: NavController){
+    Backgroundapp()
     Column (
-        modifier = Modifier.fillMaxSize() //Para que ocupe lo máximo posible
+        modifier = Modifier
+            .fillMaxSize() //Para que ocupe lo máximo posible
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,//Para que se alineen
     ){
+
         Text(
             text = stringResource(id = R.string.app_name),
             fontWeight = FontWeight.Bold,
@@ -60,13 +66,13 @@ fun MenuScreen(navController: NavController){
         )
         Spacer(modifier = Modifier.height(15.dp))
         //ELIMINAR LISTA DE ENTRADAS, REDUNDANTE
-        CustomBtnMenu(btnText = { Text(stringResource(id = R.string
+        /*CustomBtnMenu(btnText = { Text(stringResource(id = R.string
             .entries_list))},
                       btnIcon = { Icon(Icons.Filled.List, contentDescription = null)},
                       containerColor = MaterialTheme.colorScheme.primaryContainer,
                       onClick = {navController.navigate("list")}
         )
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(15.dp))*/
         //Búsqueda de entradas según un calendario, añadiremos un Date Picker, en proceso
         CustomBtnMenu(btnText = { Text(stringResource(id = R.string.calendar))},
                       btnIcon = { Icon(Icons.Filled.DateRange, contentDescription = null)},
@@ -145,5 +151,14 @@ fun CustomBtnMenu (
         icon = { btnIcon() },
         text = { btnText() },
         modifier = Modifier.size(width = 240.dp, height = 55.dp)
+    )
+}
+@Composable
+fun Backgroundapp(){
+    Image(
+        painter = painterResource(id = R.drawable.fondo_app ),
+        contentDescription = "fondo de pantalla",
+        contentScale = ContentScale.FillBounds,
+        modifier = Modifier.fillMaxSize()
     )
 }

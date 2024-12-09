@@ -41,6 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.taller.myapplication.data.Entry
+import com.taller.myapplication.ui.menu.Backgroundapp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,6 +86,7 @@ fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel
 @Composable
 fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                       viewModel: EntryViewModel){
+    Backgroundapp()
     //Creamos una variable para poder usar el estado, una lista de entradas.
     val state = viewModel.state
     //Creamos variables para los filtros
@@ -94,7 +97,10 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
     var filteredEntryList = state.entryList
         //.sortedByDescending { it.day }
         //.sortedBy { it.month }
-        .sortedWith(compareBy({ it.month }, { it.day }))
+        //.sortedWith(compareBy({ it.month }, { it.day }))
+        .sortedWith(compareByDescending<Entry> { it.year }
+                        .thenByDescending { it.month }
+                        .thenByDescending { it.day })
     if(dayFilter != "") {
         filteredEntryList = filteredEntryList.filter { it.day == dayFilter.toInt()}
     }

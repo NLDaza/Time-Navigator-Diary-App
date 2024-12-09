@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.taller.myapplication.ui.menu.Backgroundapp
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -70,6 +71,7 @@ fun SettingsScreen(navController: NavHostController) {
             )
         }
     ){
+        Backgroundapp()
         ContentSettingsScreen(it)
     }
 }
