@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -266,25 +267,41 @@ fun ContentEditScreen(
                 value = mood,
                 onValueChange = {mood = it},
                 label = {Text(text = "Mood")},
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                               KeyboardType.Text),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(bottom = 10.dp)
+                    .padding(bottom = 10.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    //focusedLabelColor = Color.White,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+                    //cursorColor = Color.Black,
+                )
             )
             OutlinedTextField(
                 value = memory,
                 onValueChange = {memory = it},
                 label = {Text(text = "Memory")},
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                               KeyboardType.Text),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 10.dp)
-                    .height(300.dp)
-                    .verticalScroll(rememberScrollState())
+                    .height(400.dp)
+                    .verticalScroll(rememberScrollState()),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    //focusedLabelColor = Color.White,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+                    //cursorColor = Color.Black,
+                )
             )
             //REVISAR
             if(openDialog.value) {

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -88,7 +89,7 @@ fun ContentSettingsScreen(it:PaddingValues){
         verticalArrangement = Arrangement.Center
     ){
         SwitchBtnDayNight()
-        Button(onClick = {showDialog = true}) {
+        Button(onClick = {showDialog = true}, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),) {
             Text("Eliminar base de datos")
         }
         if (showDialog){
@@ -153,9 +154,4 @@ fun SwitchBtnDayNight() {
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = if (isDarkMode) "Modo Noche" else "Modo Día")
     }
-}
-@Preview
-@Composable
-fun PreviewMode(){
-    SwitchBtnDayNight()
 }

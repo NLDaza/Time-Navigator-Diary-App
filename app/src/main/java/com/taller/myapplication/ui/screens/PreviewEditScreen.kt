@@ -1,6 +1,7 @@
 package com.taller.myapplication.ui.screens
 
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -87,7 +88,7 @@ fun ContentPreviewEditScreen(
     }
     val paddingValues = it
     val selectedEntry = viewModel.selectedEntry
-
+    val openDialogDelete = remember { mutableStateOf(false) }
     //Pasamos selectedEntry y modificamos por ejemplo mood a selectedEntry.mood
     selectedEntry?.let {
 
@@ -98,18 +99,23 @@ fun ContentPreviewEditScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
         ){
-            val openDialogDelete = remember { mutableStateOf(false) }
+
 
             PreviewEditText(text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ", modifier = Modifier)
 
-            PreviewEditText(text = selectedEntry.mood, modifier = Modifier)
+            PreviewEditText(
+                text = "Estado de ánimo: ${selectedEntry.mood}",
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth(),
+            )
 
 
             PreviewEditText(text = selectedEntry.memory,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(380.dp)
-                                .verticalScroll(rememberScrollState())
+                                .height(460.dp)
+                                .verticalScroll(rememberScrollState()),
             )
             Button(onClick = {navController.navigate("edit/${idEntry}")
             }
@@ -160,7 +166,7 @@ fun PreviewEditText(text: String, modifier: Modifier){
                  color = Color.Black,      // Color del borde
                  shape = RoundedCornerShape(8.dp) // Esquinas redondeadas (opcional)
              )
-             .padding(8.dp) // Espaciado interno entre el texto y el borde
-
+             .background(Color.White)
+             .padding(8.dp), // Espaciado interno entre el texto y el borde
     )
 }

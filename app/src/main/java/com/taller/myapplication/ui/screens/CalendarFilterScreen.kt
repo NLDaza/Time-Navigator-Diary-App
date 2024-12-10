@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,11 +28,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -93,7 +96,7 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
     var dayFilter by rememberSaveable { mutableStateOf("") }
     var monthFilter by rememberSaveable { mutableStateOf("") }
     var yearFilter by rememberSaveable { mutableStateOf("") }
-    //Se
+    val openDialogDeleteCalendar = remember { mutableStateOf(false) }
     var filteredEntryList = state.entryList
         //.sortedByDescending { it.day }
         //.sortedBy { it.month }
@@ -170,7 +173,8 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                     ){
                         Text(
                             text = " Mood: ${it.mood}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            maxLines = 1,
                         )
                         Text(//REVISAR
                             text = "Memory: ${it.memory}",
@@ -198,9 +202,34 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
                                 Icon(Icons.Filled.Edit,contentDescription =
                                 "Edit")
                             }
+                            if(openDialogDeleteCalendar.value) {
+                                AlertDialog(
+                                    onDismissRequest = {openDialogDeleteCalendar.value = false},
+                                    title = {Text (text ="¿Quieres eliminar la entrada?")},
+                                    text = {Text(text = "No podrás recuperarla")},
+                                    confirmButton = {
+                                        TextButton(
+                                            onClick = {
+                                                viewModel.deleteEntry(it)
+                                                navController.popBackStack("calendar", inclusive = false)
+                                            }) {
+                                            Text(text = "Aceptar")
+                                        }
+                                    },
+                                    dismissButton = {
+                                        TextButton(
+                                            onClick = {
+                                                openDialogDeleteCalendar.value = false
+                                            }
+                                        ) {
+                                            Text("Salir")
+                                        }
+                                    }
+                                )
+                            }
                             IconButton(
                                 onClick = {
-                                    viewModel.deleteEntry(it)
+                                    openDialogDeleteCalendar.value= true
                                 }
                             ) {
                                 Icon(Icons.Filled.Delete, contentDescription

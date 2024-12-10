@@ -259,15 +259,25 @@ fun ContentAddScreen(
         OutlinedTextField(
             value = mood,
             onValueChange = {mood = it},
-            label = {Text(text = "Mood")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Text),
+            label = {Text(text = "Estado de ánimo")},
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+            placeholder = {Text(text ="Ej: Feliz, triste...")},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
-
-
+                .height(55.dp)
+                .verticalScroll(rememberScrollState()),
+            maxLines = 1,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                //focusedLabelColor = Color.White,
+                unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+                //cursorColor = Color.Black,
+            )
         )
 
         OutlinedTextField(
@@ -285,8 +295,8 @@ fun ContentAddScreen(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                unfocusedBorderColor = Color.Gray,
-                focusedBorderColor = Color.White,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 //focusedLabelColor = Color.White,
                 unfocusedLabelColor = MaterialTheme.colorScheme.primary,
                 //cursorColor = Color.Black,

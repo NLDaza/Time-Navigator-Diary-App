@@ -50,13 +50,17 @@ fun MenuScreen(navController: NavController){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,//Para que se alineen
     ){
-
-        Text(
+        Image(
+            painter = painterResource(id = R.drawable.time_navigator_logo_3),
+            contentDescription = "logo",
+            modifier = Modifier.size(180.dp)
+        )
+        /*Text(
             text = stringResource(id = R.string.app_name),
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.SansSerif,
             style = MaterialTheme.typography.titleLarge
-        )
+        )*/
         //Agregamos este botón para añadir una nueva entrada al diario
         Spacer(modifier = Modifier.height(15.dp))
         CustomBtnMenu(btnText = { Text(stringResource(id = R.string.add_entrie))},
