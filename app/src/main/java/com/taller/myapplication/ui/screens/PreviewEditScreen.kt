@@ -1,6 +1,5 @@
 package com.taller.myapplication.ui.screens
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -32,10 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.taller.myapplication.ui.menu.Backgroundapp
+import com.taller.myapplication.R
+import com.taller.myapplication.ui.menu.BackgroundApp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +50,7 @@ fun PreviewEditEntryScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(
-                    text = "Time Navigator",
+                    stringResource(id = R.string.app_name),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -63,7 +64,7 @@ fun PreviewEditEntryScreen(
                     ){
                         Icon(
                             Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(id = R.string.back),
                             tint = Color.White)
                     }
                 }
@@ -80,13 +81,13 @@ fun PreviewEditEntryScreen(
 fun ContentPreviewEditScreen(
     it: PaddingValues,
     navController: NavController,
-    viewModel: EntryViewModel, //Aunque parezca que no se usa, es necesario para que se pasen el resto de datos.
+    viewModel: EntryViewModel,
     idEntry: Int){
-    Backgroundapp()
+    BackgroundApp()
     LaunchedEffect(idEntry) {
         viewModel.getEntryById(idEntry)
     }
-    val paddingValues = it
+    val paddingValues: PaddingValues = it
     val selectedEntry = viewModel.selectedEntry
     val openDialogDelete = remember { mutableStateOf(false) }
     //Pasamos selectedEntry y modificamos por ejemplo mood a selectedEntry.mood
@@ -120,20 +121,20 @@ fun ContentPreviewEditScreen(
             Button(onClick = {navController.navigate("edit/${idEntry}")
             }
             ) {
-                Text(text = "Modificar entrada")
+                Text(stringResource(id = R.string.edit_entry))
             }
             if(openDialogDelete.value) {
                 AlertDialog(
                     onDismissRequest = {openDialogDelete.value = false},
-                    title = {Text (text ="¿Quieres eliminar la entrada?")},
-                    text = {Text(text = "No podrás recuperarla")},
+                    title = {Text (stringResource(id = R.string.delete_entry_title))},
+                    text = {Text(stringResource(id = R.string.wont_be_able_to_recover))},
                     confirmButton = {
                         TextButton(
                             onClick = {
                                 viewModel.deleteEntry(it)
                                 navController.popBackStack("calendar", inclusive = false)
                             }) {
-                            Text(text = "Aceptar")
+                            Text(stringResource(id = R.string.accept))
                         }
                     },
                     dismissButton = {
@@ -142,7 +143,7 @@ fun ContentPreviewEditScreen(
                                 openDialogDelete.value = false
                             }
                         ) {
-                            Text("Salir")
+                            Text(stringResource(id = R.string.cancel))
                         }
                     }
                 )
@@ -150,17 +151,16 @@ fun ContentPreviewEditScreen(
             Button(
                 onClick = { openDialogDelete.value= true }
             ) {
-                Text(text = "Eliminar entrada")
+                Text(stringResource(id = R.string.delete_entry))
             }
         }
-    } ?: Text(text = "Entrada no encontrada")
+    } ?: Text(stringResource(id = R.string.entry_not_found))
 
 }
 @Composable
 fun PreviewEditText(text: String, modifier: Modifier){
     Text(text = text,
          modifier = modifier
-             .padding(3.dp)
              .border(
                  width = 1.dp,            // Grosor del borde
                  color = Color.Black,      // Color del borde

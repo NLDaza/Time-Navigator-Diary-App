@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Time Navigator</string>
-
     <string name="close_app"> Cerrando la app</string>
     <string name="are_u_sure">¿Estás seguro?</string>
     <string name="main_screen">Menú principal</string>
@@ -12,4 +11,34 @@
     <string name="close">Cerrar app</string>
     <string name="save">Guardar</string>
     <string name="settings">Ajustes</string>
+    <string name="app_logo">Logo de la app</string>
+    <string name="icon_add_btn">Logo boton agregar entrada</string>
+    <string name="icon_cal_btn">Logo botón Lista entradas</string>
+    <string name="icon_set_btn">Logo botón Lista entradas</string>
+    <string name="icon_close_btn">Logo botón Lista entradas</string>
+    <string name="background">Fondo de pantalla</string>
+    <string name="back">Volver</string>
+    <string name="day">Día</string>
+    <string name="day_example">Ej:12</string>
+    <string name="month">Mes</string>
+    <string name="month_example">Ej:4</string>
+    <string name="year">Año</string>
+    <string name="year_example">Ej:2024</string>
+    <string name="mood">Estado de ánimo</string>
+    <string name="mood_example">Ej: Feliz, Triste, Enfadado...</string>
+    <string name="memory">Memory</string>
+    <string name="add">Añadir</string>
+    <string name="card_mood">" Mood: "</string>
+    <string name="card_memory">"Memory: "</string>
+    <string name="edit_entry">Editar entrada</string>
+    <string name="edit_entry_btn_ok">¿Quieres modificar la entrada?</string>
+    <string name="changes_cant_be_undone">Los cambios no pueden deshacerse</string>
+    <string name="accept">Aceptar</string>
+    <string name="entry_not_found">Entrada no encontrada</string>
+    <string name="update_entry_btn">Actualizar entrada</string>
+    <string name="delete_entry">Eliminar entrada</string>
+    <string name="delete_entry_title">¿Quieres eliminar la entrada?</string>
+    <string name="wont_be_able_to_recover">No podrás recuperarla, ¿estás segur@?</string>
+    <string name="db_eliminated">Base de datos eliminada con éxito</string>
+    <string name="db_not_eliminated">La base de datos no pudo eliminarse</string>
 </resources>

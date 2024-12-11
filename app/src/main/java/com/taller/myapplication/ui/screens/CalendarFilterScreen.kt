@@ -1,6 +1,5 @@
 package com.taller.myapplication.ui.screens
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -40,12 +39,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.taller.myapplication.R
 import com.taller.myapplication.data.Entry
-import com.taller.myapplication.ui.menu.Backgroundapp
+import com.taller.myapplication.ui.menu.BackgroundApp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,23 +54,22 @@ import com.taller.myapplication.ui.viewmodels.EntryViewModel
 fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel){
     Scaffold (
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(text = "Lista de entradas",
-                                                  color = Color.White,
-                                                  fontWeight = FontWeight.Bold)},
-                                   colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                       containerColor = MaterialTheme
-                                           .colorScheme.primary
-                                   ),
-                                   navigationIcon = {
-                                       IconButton(
-                                           onClick = {navController.popBackStack()}
-                                       ){
-                                           Icon(
-                                               Icons.Filled.ArrowBack,
-                                               contentDescription = "Back",
-                                               tint = Color.White)
-                                       }
-                                   }
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        stringResource(id = R.string.entries_list),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.back), tint = Color.White)
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -78,7 +78,7 @@ fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = Color.White
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Añadir")
+                Icon(Icons.Filled.Add, contentDescription = stringResource(id = R.string.add))
             }
         }
     ){
@@ -87,9 +87,8 @@ fun CalendarFilterScreen(navController: NavController, viewModel: EntryViewModel
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
-                      viewModel: EntryViewModel){
-    Backgroundapp()
+fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewModel: EntryViewModel){
+    BackgroundApp()
     //Creamos una variable para poder usar el estado, una lista de entradas.
     val state = viewModel.state
     //Creamos variables para los filtros
@@ -98,9 +97,6 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
     var yearFilter by rememberSaveable { mutableStateOf("") }
     val openDialogDeleteCalendar = remember { mutableStateOf(false) }
     var filteredEntryList = state.entryList
-        //.sortedByDescending { it.day }
-        //.sortedBy { it.month }
-        //.sortedWith(compareBy({ it.month }, { it.day }))
         .sortedWith(compareByDescending<Entry> { it.year }
                         .thenByDescending { it.month }
                         .thenByDescending { it.day })
@@ -126,32 +122,29 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController,
         TextField(
             value = dayFilter,
             onValueChange = { if (it.length <= 2){dayFilter = it }},
-            label = { Text("Día") },
+            label = { Text(stringResource(id = R.string.day)) },
             singleLine = true,
-            placeholder = { Text("Ej: 12") },
+            placeholder = { Text(stringResource(id = R.string.day_example)) },
             modifier = Modifier.width(90.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Number),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             )
         TextField(
             value = monthFilter,
             onValueChange = { if (it.length <=2){monthFilter = it }},
-            label = { Text("Mes") },
+            label = { Text(stringResource(id = R.string.month)) },
             singleLine = true,
-            placeholder = { Text("Ej: 3") },
+            placeholder = { Text(stringResource(id = R.string.month_example)) },
             modifier = Modifier.width(90.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Number),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
         )
         TextField(
             value = yearFilter,
             onValueChange = { if(it.length <= 4) {yearFilter = it }},
-            label = { Text("Año") },
+            label = { Text(stringResource(id = R.string.year)) },
             singleLine = true,
-            placeholder = { Text("Ej: 2024") },
+            placeholder = { Text(stringResource(id = R.string.year_example)) },
             modifier = Modifier.width(100.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Number),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
         )
     }
 

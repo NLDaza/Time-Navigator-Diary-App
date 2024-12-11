@@ -1,6 +1,5 @@
 package com.taller.myapplication.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -28,26 +27,27 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.taller.myapplication.R
 import com.taller.myapplication.data.Entry
-import com.taller.myapplication.ui.menu.Backgroundapp
+import com.taller.myapplication.ui.menu.BackgroundApp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 import java.util.Calendar
 import java.util.Date
-import java.util.Objects.toString
 import java.util.TimeZone
 
 
@@ -61,7 +61,7 @@ fun AddEntryScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(
-                    text = "Agregar entrada",
+                    text = stringResource(id = R.string.add_entrie),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )},
@@ -74,7 +74,7 @@ fun AddEntryScreen(
                     ){
                         Icon(
                             Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(id = R.string.back),
                             tint = Color.White)
                     }
                 }
@@ -93,35 +93,33 @@ fun ContentAddScreen(
     navController: NavController,
     viewModel: EntryViewModel
 ){
-    Backgroundapp()
-    //Creamos una variable que al abrirse, oculte el teclado virtual.
-    //val keyboardController = LocalSoftwareKeyboardController.current
-
-    //Creamos variables para almacenar y detectar cuando se estan cambiando
-// los elementos que el usuario introduce
+    BackgroundApp()
+    //Creamos variables para almacenar y detectar cuando se estan cambiando los elementos que el usuario introduce
 
     var mood by remember { mutableStateOf("") }
     var memory by remember { mutableStateOf("") }
 
-    val date = Date()// your date
+    val date = Date()// Obtenemos la fecha de hoy
     //https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
-    // Choose time zone in which you want to interpret your Date
-    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+    //Elegimos la zona horaria que queremos para obtener la fecha (date), en este caso, España, Madrid
+    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"))
     cal.setTime(date)
     val year = cal[Calendar.YEAR]
     val month = cal[Calendar.MONTH]
     val day = cal[Calendar.DAY_OF_MONTH]
 
-    //Para crear una lista desplegable REVISAR
+    //Creamos las variables para las listas desplegables para día, mes y año
     val dayList: MutableList<Int> = ArrayList()
         for (i in 1..31) {
             dayList.add(i)
         }
+    //Variable que usamos para que se abra la lista desplegable
     var showDays by remember {
         mutableStateOf(false)
     }
+    //Variable que usamos para tener el día seleccionado, se inicializará en el día actual en la zona horaria de Europa/París
     var selectedDay by remember {
-        mutableStateOf(dayList[day-1])
+        mutableIntStateOf(dayList[day-1])
     }
     val monthList: MutableList<Int> = ArrayList()
     for (i in 1..12 ){
@@ -131,7 +129,7 @@ fun ContentAddScreen(
         mutableStateOf(false)
     }
     var selectedMonth by remember {
-        mutableStateOf(monthList[month])//En Java los meses empiezan en 0, al contrario que los dias que empiezan en 1
+        mutableIntStateOf(monthList[month])//En Java los meses empiezan en 0, al contrario que los dias que empiezan en 1
     }//https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html
     val yearList = listOf( year-4, year-3, year-2 , year-1, year, year+1, year+2, year +3, year+4 )
 
@@ -139,7 +137,7 @@ fun ContentAddScreen(
         mutableStateOf(false)
     }
     var selectedYear by remember {
-        mutableStateOf(yearList[4])
+        mutableIntStateOf(yearList[4])
     }
     Column (
         modifier = Modifier
@@ -150,9 +148,9 @@ fun ContentAddScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row {
-            TextAddScreen(text = "Día")
-            TextAddScreen(text = "Mes")
-            TextAddScreen(text = "Año")
+            TextAddScreen(stringResource(id = R.string.day))
+            TextAddScreen(stringResource(id = R.string.month))
+            TextAddScreen(stringResource(id = R.string.year))
         }
         Row {
             ExposedDropdownMenuBox(
@@ -259,9 +257,9 @@ fun ContentAddScreen(
         OutlinedTextField(
             value = mood,
             onValueChange = {mood = it},
-            label = {Text(text = "Estado de ánimo")},
+            label = {Text(stringResource(id = R.string.mood))},
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-            placeholder = {Text(text ="Ej: Feliz, triste...")},
+            placeholder = {Text(stringResource(id = R.string.mood_example))},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
@@ -283,9 +281,8 @@ fun ContentAddScreen(
         OutlinedTextField(
             value = memory,
             onValueChange = {memory = it},
-            label = {Text(text = "Memory")},
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType =
-                                                           KeyboardType.Text),
+            label = {Text(stringResource(id = R.string.memory))},
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
@@ -320,7 +317,7 @@ fun ContentAddScreen(
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp),
         ) {
-            Text(text = "Añadir entrada")
+            Text(stringResource(id = R.string.add_entrie))
         }
     }
 }

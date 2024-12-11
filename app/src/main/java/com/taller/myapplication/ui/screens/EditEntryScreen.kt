@@ -1,6 +1,5 @@
 package com.taller.myapplication.ui.screens
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -34,19 +33,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.taller.myapplication.R
 import com.taller.myapplication.data.Entry
-import com.taller.myapplication.ui.menu.Backgroundapp
+import com.taller.myapplication.ui.menu.BackgroundApp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 import java.util.Objects
 
@@ -61,7 +62,7 @@ fun EditEntryScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(
-                    text = "Editar entrada",
+                    stringResource(id = R.string.edit_entry),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -75,7 +76,7 @@ fun EditEntryScreen(
                     ){
                         Icon(
                             Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(id = R.string.back),
                             tint = Color.White)
                     }
                 }
@@ -97,45 +98,41 @@ fun ContentEditScreen(
     viewModel: EntryViewModel,
     idEntry: Int,
 ) {
-    Backgroundapp()
-    //REVISAR
-    //Creamos una variable que al abrirse, oculte el teclado virtual.
-    //val keyboardController = LocalSoftwareKeyboardController.current
-
-    //Creamos variables para almacenar y detectar cuando se estan cambiando
-// los elementos que el usuario introduce
+    BackgroundApp()
+    //Creamos variables para almacenar y detectar cuando se estan cambiando los elementos que el usuario introduce
+    //Llamamos al viewmodel para que muestre la entrada seleccionada según su id.
     LaunchedEffect(idEntry) {
         viewModel.getEntryById(idEntry)
     }
     val paddingValues = it
+    //Cambiamos el it obtenido a paddingValues, para que se diferencie del it: Entry
     val selectedEntry = viewModel.selectedEntry
+    //Según la entrada seleccionada por id (que se pasa al entrar directamente desde la lista), aparecen todos los demás datos
     selectedEntry?.let {
         var mood by remember { mutableStateOf(selectedEntry.mood) }
         var memory by remember { mutableStateOf(selectedEntry.memory) }
 
-        //Para crear una lista desplegable REVISAR
+        //Para crear una lista desplegable
         val dayList: MutableList<String> = ArrayList()
 
         for (i in 1..31) {
             dayList.add(i.toString())
         }
-        //Para crear una lista desplegable
         var showDays by remember {
             mutableStateOf(false)
         }
         var selectedDay by remember {
-            mutableStateOf(selectedEntry.day)
+            mutableIntStateOf(selectedEntry.day)
         }
         val monthList: MutableList<String> = ArrayList()
         for (i in 1..12 ){
             monthList.add(i.toString())
         }
-        //val monthList = listOf("Seleciona un mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre", "Noviembre", "Diciembre")
         var showMonth by remember {
             mutableStateOf(false)
         }
         var selectedMonth by remember {
-            mutableStateOf(selectedEntry.month)
+            mutableIntStateOf(selectedEntry.month)
         }
         val intYear = selectedEntry.year
         val yearList = listOf(Objects.toString(intYear - 4), Objects.toString(intYear - 3), Objects.toString(intYear - 2), Objects.toString(intYear - 1), Objects.toString(intYear), Objects.toString(intYear + 1), Objects.toString(intYear + 2), Objects.toString(intYear + 3), Objects.toString(intYear + 4))
@@ -143,7 +140,7 @@ fun ContentEditScreen(
             mutableStateOf(false)
         }
         var selectedYear by remember {
-            mutableStateOf(selectedEntry.year)
+            mutableIntStateOf(selectedEntry.year)
         }
 
         val openDialog = remember { mutableStateOf(false) }
@@ -157,9 +154,9 @@ fun ContentEditScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row {
-                TextAddScreen(text = "Día")
-                TextAddScreen(text = "Mes")
-                TextAddScreen(text = "Año")
+                TextAddScreen(stringResource(id = R.string.day))
+                TextAddScreen(stringResource(id = R.string.month))
+                TextAddScreen(stringResource(id = R.string.year))
             }
             Row {
                 ExposedDropdownMenuBox(
@@ -266,7 +263,7 @@ fun ContentEditScreen(
             OutlinedTextField(
                 value = mood,
                 onValueChange = {mood = it},
-                label = {Text(text = "Mood")},
+                label = {Text(stringResource(id = R.string.mood))},
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -285,7 +282,7 @@ fun ContentEditScreen(
             OutlinedTextField(
                 value = memory,
                 onValueChange = {memory = it},
-                label = {Text(text = "Memory")},
+                label = {Text(stringResource(id = R.string.memory))},
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -307,8 +304,8 @@ fun ContentEditScreen(
             if(openDialog.value) {
                 AlertDialog(
                     onDismissRequest = {openDialog.value = false},
-                    title = {Text (text ="¿Quieres modificar la entrada?")},
-                    text = {Text(text = "Los cambios no pueden deshacerse")},
+                    title = {Text (stringResource(id = R.string.edit_entry_btn_ok))},
+                    text = {Text(stringResource(id = R.string.changes_cant_be_undone))},
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -323,7 +320,7 @@ fun ContentEditScreen(
                                 viewModel.updateEntry(entry)
                                 navController.popBackStack("calendar", inclusive = false)
                             }) {
-                            Text(text = "Aceptar")
+                            Text(stringResource(id = R.string.accept))
                         }
                     },
                     dismissButton = {
@@ -332,7 +329,7 @@ fun ContentEditScreen(
                                 openDialog.value = false
                             }
                         ) {
-                            Text("Salir")
+                            Text(stringResource(id = R.string.cancel))
                         }
                     }
                 )
@@ -346,10 +343,10 @@ fun ContentEditScreen(
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 10.dp)
             ) {
-                Text(text = "Actualizar entrada")
+                Text(stringResource(id = R.string.update_entry_btn))
             }
         }
-    } ?: Text(text = "Entrada no encontrada")
+    } ?: Text(stringResource(id = R.string.entry_not_found))
 
 }
 

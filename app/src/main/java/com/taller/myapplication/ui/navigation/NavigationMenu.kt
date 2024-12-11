@@ -10,7 +10,6 @@ import com.taller.myapplication.ui.menu.MenuScreen
 import com.taller.myapplication.ui.screens.AddEntryScreen
 import com.taller.myapplication.ui.screens.CalendarFilterScreen
 import com.taller.myapplication.ui.screens.EditEntryScreen
-import com.taller.myapplication.ui.screens.ListScreen
 import com.taller.myapplication.ui.screens.PreviewEditEntryScreen
 import com.taller.myapplication.ui.screens.SettingsScreen
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
@@ -19,7 +18,7 @@ import com.taller.myapplication.ui.viewmodels.EntryViewModel
 fun NavigationMenu(
     viewmodel: EntryViewModel
 ){
-    var navController = rememberNavController()//Inicializamos el navController
+    val navController = rememberNavController()//Inicializamos el navController
     //Creamos el navhost para que sepa la aplicacion que pantalla mostraremos
 // al principio
     NavHost(
@@ -29,15 +28,10 @@ fun NavigationMenu(
         composable("menu") {
             MenuScreen(navController)
         }
-        composable("list"){
-            //MenuScreen(navController, viewmodel)
-            ListScreen(navController, viewmodel)
-        }
         composable("add") {
             AddEntryScreen(navController, viewmodel)
         }
         composable("calendar"){
-            //MenuScreen(navController, viewmodel)
             CalendarFilterScreen(navController, viewmodel)
         }
         composable("settings"){
