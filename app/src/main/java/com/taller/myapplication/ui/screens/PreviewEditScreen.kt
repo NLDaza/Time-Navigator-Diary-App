@@ -2,6 +2,7 @@ package com.taller.myapplication.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.taller.myapplication.R
@@ -100,9 +102,45 @@ fun ContentPreviewEditScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
         ){
-
-
-            PreviewEditText(text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ", modifier = Modifier)
+            Text(
+                text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ",
+                modifier = Modifier
+                    .background(color = Color.White)
+                    .border(width = 1.dp, color = Color.Black)
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Box(modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .background(color = Color.Cyan)
+                .border(width = 1.dp, color = Color.Black)
+                .padding(8.dp)){
+                Text(
+                    text = selectedEntry.mood,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                )
+            }
+            Box (modifier = Modifier
+                .height(460.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .background(color = Color.Cyan)
+                .border(width = 1.dp, color = Color.Black)
+                .padding(8.dp)
+            ){
+                Text(
+                    text = selectedEntry.memory,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+            }
+            /*PreviewEditText(text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ", modifier = Modifier)
 
             PreviewEditText(
                 text = "Estado de ánimo: ${selectedEntry.mood}",
@@ -117,7 +155,7 @@ fun ContentPreviewEditScreen(
                                 .fillMaxWidth()
                                 .height(460.dp)
                                 .verticalScroll(rememberScrollState()),
-            )
+            )*/
             Button(onClick = {navController.navigate("edit/${idEntry}")
             }
             ) {
