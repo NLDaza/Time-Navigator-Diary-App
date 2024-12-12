@@ -109,14 +109,13 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewM
     if(yearFilter != "") {
         filteredEntryList = filteredEntryList.filter { it.year == yearFilter.toInt()}
     }
-    //Para que se filtre y sean necesarias todos los campos (opcional)
+    //Para que se filtre y sean necesarias todos los campos (opcional para futuros cambios)
     //filteredEntryList = filteredEntryList.filter { it.day == dayFilter && it.month == monthFilter && it.year ==yearFilter}
     Column(
         modifier = Modifier
             .padding(it)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
     Row {
         TextField(

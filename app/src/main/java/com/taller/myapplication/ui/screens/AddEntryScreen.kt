@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -139,6 +140,7 @@ fun ContentAddScreen(
     var selectedYear by remember {
         mutableIntStateOf(yearList[4])
     }
+    val myCustomColor = Color(0xFF10A3D6) // Color en hexadecimal
     Column (
         modifier = Modifier
             .padding(it)
@@ -160,15 +162,20 @@ fun ContentAddScreen(
                     .padding(horizontal = 5.dp)
                     .padding(bottom = 15.dp)
                     .width(100.dp)
+                    .background(color = myCustomColor)
             ) {
-                //keyboardController?.hide()
                 TextField(
                     value = selectedDay.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
                     trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Green,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
                 )
                 ExposedDropdownMenu(
                     expanded = showDays,
@@ -194,14 +201,18 @@ fun ContentAddScreen(
                     .padding(bottom = 15.dp)
                     .width(100.dp)
             ) {
-                //keyboardController?.hide()
                 TextField(
                     value = selectedMonth.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
                     trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Green,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
                 )
                 ExposedDropdownMenu(
                     expanded = showMonth,
@@ -227,14 +238,18 @@ fun ContentAddScreen(
                     .padding(bottom = 15.dp)
                     .width(110.dp)
             ) {
-                //keyboardController?.hide()
                 TextField(
                     value = selectedYear.toString(),
                     onValueChange = { },
                     readOnly = true,
                     modifier = Modifier.menuAnchor(),
                     trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Green,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
                 )
                 ExposedDropdownMenu(
                     expanded = showYear,
@@ -264,7 +279,7 @@ fun ContentAddScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp)
-                .height(55.dp)
+                .height(63.dp)
                 .verticalScroll(rememberScrollState()),
             maxLines = 1,
             colors = OutlinedTextFieldDefaults.colors(
@@ -272,9 +287,9 @@ fun ContentAddScreen(
                 unfocusedContainerColor = Color.White,
                 unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
-                //focusedLabelColor = Color.White,
+                focusedLabelColor = Color.White,
                 unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-                //cursorColor = Color.Black,
+
             )
         )
 
@@ -294,9 +309,9 @@ fun ContentAddScreen(
                 unfocusedContainerColor = Color.White,
                 unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
-                //focusedLabelColor = Color.White,
+                focusedLabelColor = Color.White,
                 unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-                //cursorColor = Color.Black,
+
             )
         )
         Button(
@@ -328,6 +343,7 @@ fun TextAddScreen(text: String){
          modifier = Modifier
              .padding(horizontal = 5.dp)
              .padding(bottom = 5.dp)
-             .width(100.dp)
+             .width(100.dp),
+         color= Color.White
     )
 }

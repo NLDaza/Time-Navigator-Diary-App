@@ -5,6 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -98,24 +100,33 @@ fun ContentPreviewEditScreen(
         Column (modifier = Modifier
             .padding(paddingValues)
             .padding(top = 20.dp)
+            .padding(horizontal = 20.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(
-                text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ",
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .border(width = 1.dp, color = Color.Black)
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
+            Box (modifier = Modifier
+                .background(color = Color.White)
+                .border(width = 1.dp, color = Color.Black)
+                .padding(8.dp)
+                .fillMaxWidth(),
+                 contentAlignment = Alignment.Center
+            ){
+                Row {
+                    Text(stringResource(id = R.string.date))
+                    Text(
+                        text = "${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ",
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(15.dp))
             Box(modifier = Modifier
                 .height(50.dp)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .background(color = Color.Cyan)
+                .background(color = Color.White)
                 .border(width = 1.dp, color = Color.Black)
                 .padding(8.dp)){
                 Text(
@@ -125,12 +136,16 @@ fun ContentPreviewEditScreen(
                         .fillMaxWidth(),
                 )
             }
+            Spacer(modifier = Modifier.height(15.dp))
             Box (modifier = Modifier
                 .height(460.dp)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .background(color = Color.Cyan)
-                .border(width = 1.dp, color = Color.Black)
+                .background(color = Color.White)
+                .border(
+                    width = 1.dp,
+                    color = Color.Black,
+                )
                 .padding(8.dp)
             ){
                 Text(
@@ -140,22 +155,7 @@ fun ContentPreviewEditScreen(
                         .fillMaxWidth()
                 )
             }
-            /*PreviewEditText(text = "Fecha: ${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ", modifier = Modifier)
-
-            PreviewEditText(
-                text = "Estado de ánimo: ${selectedEntry.mood}",
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxWidth(),
-            )
-
-
-            PreviewEditText(text = selectedEntry.memory,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(460.dp)
-                                .verticalScroll(rememberScrollState()),
-            )*/
+            
             Button(onClick = {navController.navigate("edit/${idEntry}")
             }
             ) {
@@ -193,18 +193,4 @@ fun ContentPreviewEditScreen(
             }
         }
     } ?: Text(stringResource(id = R.string.entry_not_found))
-
-}
-@Composable
-fun PreviewEditText(text: String, modifier: Modifier){
-    Text(text = text,
-         modifier = modifier
-             .border(
-                 width = 1.dp,            // Grosor del borde
-                 color = Color.Black,      // Color del borde
-                 shape = RoundedCornerShape(8.dp) // Esquinas redondeadas (opcional)
-             )
-             .background(Color.White)
-             .padding(8.dp), // Espaciado interno entre el texto y el borde
-    )
 }

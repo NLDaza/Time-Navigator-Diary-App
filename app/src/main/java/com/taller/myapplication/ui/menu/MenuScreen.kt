@@ -70,7 +70,7 @@ fun MenuScreen(navController: NavController){
                       onClick = {navController.navigate("calendar")}
         )
         Spacer(modifier = Modifier.height(15.dp))
-        //Abrimos los ajustes, en proceso
+        //Abrimos los ajustes
         CustomBtnMenu(btnText = { Text(stringResource(id = R.string.settings))},
                       btnIcon = { Icon(Icons.Filled.Build, contentDescription = stringResource(id = R.string.icon_set_btn))},
                       containerColor = MaterialTheme.colorScheme.onPrimary,
@@ -149,7 +149,7 @@ fun CustomBtnMenu (
 @Composable
 fun BackgroundApp(){
     Image(
-        painter = painterResource(id = R.drawable.fondo_app ),
+        painter = painterResource(id = R.drawable.th ),
         contentDescription = stringResource(id = R.string.background),
         contentScale = ContentScale.FillBounds,
         modifier = Modifier.fillMaxSize()

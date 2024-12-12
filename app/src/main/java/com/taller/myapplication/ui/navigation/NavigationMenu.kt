@@ -37,9 +37,10 @@ fun NavigationMenu(
         composable("settings"){
             SettingsScreen(navController)
         }
-        composable("preview/{idEntry}",arguments = listOf(
-            navArgument("idEntry"){type = NavType.IntType},
-        )){
+        composable("preview/{idEntry}",
+                   arguments = listOf(
+                        navArgument("idEntry"){type = NavType.IntType}
+                   )){
                 backStackEntry ->
             val idEntry = backStackEntry.arguments?.getInt("idEntry")
             idEntry?.let {

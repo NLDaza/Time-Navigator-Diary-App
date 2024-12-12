@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -48,7 +49,7 @@ fun SettingsScreen(navController: NavHostController) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(
-                    text = "Ajustes",
+                    stringResource(id = R.string.settings),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )},
@@ -61,7 +62,7 @@ fun SettingsScreen(navController: NavHostController) {
                     ){
                         Icon(
                             Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(id = R.string.back),
                             tint = Color.White)
                     }
                 }
@@ -88,7 +89,7 @@ fun ContentSettingsScreen(it:PaddingValues){
             onClick = {showDialog = true},
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
         ) {
-            Text("Eliminar base de datos")
+            Text(stringResource(id = R.string.delete_db))
         }
         if (showDialog){
             AlertDialog(
@@ -100,18 +101,18 @@ fun ContentSettingsScreen(it:PaddingValues){
                             showDialog = false
                         }
                     ) {
-                        Text("Eliminar")
+                        Text(stringResource(id = R.string.delete))
                     }
                 },
                 dismissButton = {
                     TextButton(
                         onClick = {showDialog = false}
                     ) {
-                        Text("Cancelar")
+                        Text(stringResource(id = R.string.cancel))
                     }
                 },
-                title = { Text("Confirmación") },
-                text = { Text("¿Estás seguro de que quieres eliminar la base de datos? Esta acción no se puede deshacer.") }
+                title = { stringResource(id = R.string.are_u_sure)},
+                text = { stringResource(id = R.string.are_u_sure_db) }
             )
         }
     }

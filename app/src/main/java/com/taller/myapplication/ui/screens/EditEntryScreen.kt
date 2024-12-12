@@ -167,14 +167,18 @@ fun ContentEditScreen(
                         .padding(bottom = 15.dp)
                         .width(100.dp)
                 ) {
-                    //keyboardController?.hide() REVISAR
                     TextField(
                         value = selectedDay.toString(),
                         onValueChange = { },
                         readOnly = true,
                         modifier = Modifier.menuAnchor(),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showDays)},
-                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                            focusedIndicatorColor = Color.Green,
+                            unfocusedIndicatorColor = Color.Gray
+                        )
                     )
                     ExposedDropdownMenu(
                         expanded = showDays,
@@ -200,14 +204,18 @@ fun ContentEditScreen(
                         .padding(bottom = 15.dp)
                         .width(100.dp)
                 ) {
-                    //keyboardController?.hide() REVISAR
                     TextField(
                         value = selectedMonth.toString(),
                         onValueChange = { },
                         readOnly = true,
                         modifier = Modifier.menuAnchor(),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showMonth)},
-                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                            focusedIndicatorColor = Color.Green,
+                            unfocusedIndicatorColor = Color.Gray
+                        )
                     )
                     ExposedDropdownMenu(
                         expanded = showMonth,
@@ -233,14 +241,18 @@ fun ContentEditScreen(
                         .padding(bottom = 15.dp)
                         .width(110.dp)
                 ) {
-                    //keyboardController?.hide()
                     TextField(
                         value = selectedYear.toString(),
                         onValueChange = { },
                         readOnly = true,
                         modifier = Modifier.menuAnchor(),
                         trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = showYear)},
-                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                            focusedIndicatorColor = Color.Green,
+                            unfocusedIndicatorColor = Color.Gray
+                        )
                     )
                     ExposedDropdownMenu(
                         expanded = showYear,
@@ -274,9 +286,8 @@ fun ContentEditScreen(
                     unfocusedContainerColor = Color.White,
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    //focusedLabelColor = Color.White,
+                    focusedLabelColor = Color.White,
                     unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-                    //cursorColor = Color.Black,
                 )
             )
             OutlinedTextField(
@@ -295,12 +306,10 @@ fun ContentEditScreen(
                     unfocusedContainerColor = Color.White,
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    //focusedLabelColor = Color.White,
+                    focusedLabelColor = Color.White,
                     unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-                    //cursorColor = Color.Black,
                 )
             )
-            //REVISAR
             if(openDialog.value) {
                 AlertDialog(
                     onDismissRequest = {openDialog.value = false},
