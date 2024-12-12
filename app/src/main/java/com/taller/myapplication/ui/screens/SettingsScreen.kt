@@ -111,8 +111,8 @@ fun ContentSettingsScreen(it:PaddingValues){
                         Text(stringResource(id = R.string.cancel))
                     }
                 },
-                title = { stringResource(id = R.string.are_u_sure)},
-                text = { stringResource(id = R.string.are_u_sure_db) }
+                title = { Text(stringResource(id = R.string.are_u_sure ))},
+                text = { Text(stringResource(id = R.string.are_u_sure_db) )}
             )
         }
     }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,11 +15,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -27,13 +25,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.taller.myapplication.R
 import com.taller.myapplication.data.Entry
@@ -95,7 +92,6 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewM
     var dayFilter by rememberSaveable { mutableStateOf("") }
     var monthFilter by rememberSaveable { mutableStateOf("") }
     var yearFilter by rememberSaveable { mutableStateOf("") }
-    val openDialogDeleteCalendar = remember { mutableStateOf(false) }
     var filteredEntryList = state.entryList
         .sortedWith(compareByDescending<Entry> { it.year }
                         .thenByDescending { it.month }
@@ -111,6 +107,7 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewM
     }
     //Para que se filtre y sean necesarias todos los campos (opcional para futuros cambios)
     //filteredEntryList = filteredEntryList.filter { it.day == dayFilter && it.month == monthFilter && it.year ==yearFilter}
+    val myCardColor = Color(0xFFFFF6A7)
     Column(
         modifier = Modifier
             .padding(it)
@@ -154,79 +151,49 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewM
                 Card (
                     modifier = Modifier
                         .padding(8.dp)
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp),
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = myCardColor // Fondo azul
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                     onClick = { navController.navigate("preview/${it.idEntry}") }
                 ){
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(10.dp)
-                    ){
-                        Text(
-                            text = " Mood: ${it.mood}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            maxLines = 1,
-                        )
-                        Text(//REVISAR
-                            text = "Memory: ${it.memory}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            maxLines = 1,
-                        )
-                        Text(
-                            text = "${it.day} / ${it.month} / ${it.year}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Row(
-                            modifier= Modifier.fillMaxSize()
+                    Row {
+                        Column (
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .height(70.dp)
+                                .width(90.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ){
-                            IconButton(
-                                onClick = {
-                                    navController.navigate("preview/${it.idEntry}")
-                                }
-                            ) {
-                                Icon(Icons.Filled.Info, contentDescription
-                                = "EntryPreview")
-                            }
-                            IconButton(
-                                onClick = {navController.navigate("edit/${it.idEntry}")}
-                            ) {
-                                Icon(Icons.Filled.Edit,contentDescription =
-                                "Edit")
-                            }
-                            if(openDialogDeleteCalendar.value) {
-                                AlertDialog(
-                                    onDismissRequest = {openDialogDeleteCalendar.value = false},
-                                    title = {Text (text ="¿Quieres eliminar la entrada?")},
-                                    text = {Text(text = "No podrás recuperarla")},
-                                    confirmButton = {
-                                        TextButton(
-                                            onClick = {
-                                                viewModel.deleteEntry(it)
-                                                navController.popBackStack("calendar", inclusive = false)
-                                            }) {
-                                            Text(text = "Aceptar")
-                                        }
-                                    },
-                                    dismissButton = {
-                                        TextButton(
-                                            onClick = {
-                                                openDialogDeleteCalendar.value = false
-                                            }
-                                        ) {
-                                            Text("Salir")
-                                        }
-                                    }
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    openDialogDeleteCalendar.value= true
-                                }
-                            ) {
-                                Icon(Icons.Filled.Delete, contentDescription
-                                = "Delete")
-                            }
+                            Text(
+                                text = "${it.day}",
+                                fontSize = 30.sp
+                            )
+                            Text(
+                                text = "${it.month} / ${it.year}",
+                                fontSize = 16.sp
+                            )
+                        }
+                        Column (
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(5.dp)
+
+                        ){
+                            Text(stringResource(id = R.string.mood))
+                            Text(
+                                text = it.mood,
+                                maxLines = 1,
+                            )
+
+                            Text(stringResource(id = R.string.memory))
+                            Text(
+                                text = it.memory,
+                                modifier = Modifier.align(Alignment.Start),
+                                maxLines = 1,
+                            )
                         }
                     }
                 }

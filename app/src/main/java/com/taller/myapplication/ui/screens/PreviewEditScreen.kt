@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -107,7 +106,7 @@ fun ContentPreviewEditScreen(
         ){
             Box (modifier = Modifier
                 .background(color = Color.White)
-                .border(width = 1.dp, color = Color.Black)
+                .border(width = 2.dp, color = MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
                 .fillMaxWidth(),
                  contentAlignment = Alignment.Center
@@ -115,7 +114,7 @@ fun ContentPreviewEditScreen(
                 Row {
                     Text(stringResource(id = R.string.date))
                     Text(
-                        text = "${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year} ",
+                        text = "${selectedEntry.day} / ${selectedEntry.month} / ${selectedEntry.year}",
                         textAlign = TextAlign.Center
                     )
                 }
@@ -127,7 +126,7 @@ fun ContentPreviewEditScreen(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
                 .background(color = Color.White)
-                .border(width = 1.dp, color = Color.Black)
+                .border(width = 2.dp, color = MaterialTheme.colorScheme.primary)
                 .padding(8.dp)){
                 Text(
                     text = selectedEntry.mood,
@@ -143,8 +142,8 @@ fun ContentPreviewEditScreen(
                 .verticalScroll(rememberScrollState())
                 .background(color = Color.White)
                 .border(
-                    width = 1.dp,
-                    color = Color.Black,
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.primary,
                 )
                 .padding(8.dp)
             ){

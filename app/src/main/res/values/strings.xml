@@ -25,9 +25,9 @@
     <string name="month_example">Ej:4</string>
     <string name="year">Año</string>
     <string name="year_example">Ej:2024</string>
-    <string name="mood">Estado de ánimo</string>
+    <string name="mood">Estado de ánimo:</string>
     <string name="mood_example">Ej: Feliz, Triste, Enfadado...</string>
-    <string name="memory">Memory</string>
+    <string name="memory">Memory:</string>
     <string name="add">Añadir</string>
     <string name="card_mood">Mood: </string>
     <string name="card_memory">Memory: </string>
@@ -42,7 +42,7 @@
     <string name="wont_be_able_to_recover">No podrás recuperarla, ¿estás segur@?</string>
     <string name="db_eliminated">Base de datos eliminada con éxito</string>
     <string name="db_not_eliminated">La base de datos no pudo eliminarse</string>
-    <string name="are_u_sure_db">¿Estás seguro de que quieres eliminar la base de datos? Esta acción no se puede deshacer.</string>
+    <string name="are_u_sure_db">¿Estás seguro de que quieres eliminar todos los registros? Esta acción no se puede deshacer.</string>
     <string name="delete_db">Eliminar todos los registros</string>
     <string name="delete">Eliminar</string>
 </resources>
