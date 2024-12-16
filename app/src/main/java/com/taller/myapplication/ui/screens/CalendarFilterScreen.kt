@@ -1,5 +1,6 @@
 package com.taller.myapplication.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,11 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -142,6 +145,25 @@ fun ContentCalendarScreen(it: PaddingValues, navController: NavController, viewM
             modifier = Modifier.width(100.dp),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
         )
+        IconButton(
+            onClick = {
+                dayFilter = ""
+                monthFilter = ""
+                yearFilter = ""
+            },
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.inversePrimary, // Color de fondo
+                    shape = CircleShape // Forma del fondo
+                )
+                .padding(2.dp) // Margen interno alrededor del ícono
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Delete,
+                contentDescription = "Delete filter",
+                tint = Color.White
+            )
+        }
     }
 
 

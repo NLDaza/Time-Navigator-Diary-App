@@ -1,6 +1,5 @@
 package com.taller.myapplication.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenuItem
@@ -49,7 +49,6 @@ import com.taller.myapplication.ui.menu.BackgroundApp
 import com.taller.myapplication.ui.viewmodels.EntryViewModel
 import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +102,8 @@ fun ContentAddScreen(
     val date = Date()// Obtenemos la fecha de hoy
     //https://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-cal
     //Elegimos la zona horaria que queremos para obtener la fecha (date), en este caso, España, Madrid
-    val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"))
+    //val cal: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"))
+    val cal: Calendar = Calendar.getInstance() // Usa la zona horaria predeterminada del dispositivo
     cal.setTime(date)
     val year = cal[Calendar.YEAR]
     val month = cal[Calendar.MONTH]
@@ -140,7 +140,6 @@ fun ContentAddScreen(
     var selectedYear by remember {
         mutableIntStateOf(yearList[4])
     }
-    val myCustomColor = Color(0xFF10A3D6) // Color en hexadecimal
     Column (
         modifier = Modifier
             .padding(it)
@@ -162,7 +161,6 @@ fun ContentAddScreen(
                     .padding(horizontal = 5.dp)
                     .padding(bottom = 15.dp)
                     .width(100.dp)
-                    .background(color = myCustomColor)
             ) {
                 TextField(
                     value = selectedDay.toString(),
