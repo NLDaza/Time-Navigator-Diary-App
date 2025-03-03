@@ -4,7 +4,9 @@ In today's fast-paced world, people often struggle to keep track of their though
 This project presents a Simple Diary Android App, developed using Kotlin, Jetpack Compose, and Android Studio. The app provides users with an easy-to-use platform for journaling, allowing them to write daily entries, store them securely, and access past records effortlessly.
 
 With a modern Jetpack Compose UI, the app ensures a smooth and intuitive user experience. It also incorporates essential features such as date-based organization, search functionality, and data security to maintain user privacy. The project focuses on simplicity, accessibility, and usability, making it an ideal companion for users who wish to maintain a digital journal.
+
 ---
+
 📌 Introducción (Español)
 En el mundo acelerado de hoy, muchas personas tienen dificultades para llevar un registro de sus pensamientos, emociones y experiencias diarias. Un diario digital ofrece una forma conveniente y segura de documentar reflexiones personales, ayudando a los usuarios a organizar sus vidas y mejorar su autoconciencia.
 
